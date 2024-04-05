@@ -42,14 +42,10 @@ public class HumanBeing implements Comparable<HumanBeing> {
     }
 
     private Coordinates coords; //Поле не может быть null
-    private ZonedDateTime zonedDT; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private ZonedDateTime zonedDT = null; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
     public ZonedDateTime getZonedDT() {
         return zonedDT;
-    }
-
-    public void setCreationDate(ZonedDateTime zonedDT) {
-        this.zonedDT = zonedDT;
     }
 
     private Boolean realHero; //Поле не может быть null
@@ -74,7 +70,6 @@ public class HumanBeing implements Comparable<HumanBeing> {
         id = -1;
         setName(name);
         this.coords = coords;
-        setCreationDate(ZonedDateTime.now());
         this.realHero = realHero;
         this.hasToothpick = hasToothpick;
         this.impactSpeed = impactSpeed;
@@ -99,7 +94,6 @@ public class HumanBeing implements Comparable<HumanBeing> {
         id = -1;
         setName(name);
         this.coords = coords;
-        setCreationDate(zonedDT);
         this.realHero = realHero;
         this.hasToothpick = hasToothpick;
         this.impactSpeed = impactSpeed;
@@ -183,6 +177,7 @@ public class HumanBeing implements Comparable<HumanBeing> {
         );
     }
 
+
     public static LinkedHashMap<String, InputRule> getFieldsMapWithId() {
         LinkedHashMap<String, InputRule> fieldMap = new LinkedHashMap<>();
 
@@ -197,103 +192,8 @@ public class HumanBeing implements Comparable<HumanBeing> {
                 }
             }
         });
-        fieldMap.put("name", new InputRule("") {
-            @Override
-            public boolean check(String input) {
-                return input != "";
-            }
-        });
 
-        fieldMap.put("coords x", new InputRule("ex: 1.0") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    if (input.isEmpty()) return true;
-                    Float.parseFloat(input);
-                    return true;
-                } catch (Exception e) { return false; }
-            }
-        });
-
-        fieldMap.put("coords y", new InputRule("ex: 0 (must be greater than -195)") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    float y = Float.parseFloat(input);
-                    return !(y <= -195);
-                } catch (Exception e) { return false;}
-            }
-        });
-        fieldMap.put("realHero", new InputRule("ex: true") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    return input.equals("true") || input.equals("false");
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
-        fieldMap.put("hasToothpick", new InputRule("ex: true") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    return input.equals("true") || input.equals("false");
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
-        fieldMap.put("impactSpeed", new InputRule("ex: 1000") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    Long.parseLong(input);
-                    return true;
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
-        fieldMap.put("minutesOfWaiting", new InputRule("ex: 10.0") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    Double.parseDouble(input);
-                    return true;
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
-        fieldMap.put("weaponType", new InputRule("one of: AXE, SHOTGUN, RIFLE, MACHINE GUN") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    WeaponType.valueOf(input.toUpperCase());
-                    return true;
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
-        fieldMap.put("mood", new InputRule("one of: SADNESS, LONGING, GLOOM, APATHY, RAGE") {
-            @Override
-            public boolean check(String input) {
-                try {
-                    Mood.valueOf(input.toUpperCase());
-                    return true;
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-        });
-        fieldMap.put("car", new InputRule("ex: Mercedes") {
-            @Override
-            public boolean check(String input) {
-                return super.check(input);
-            }
-        });
+        fieldMap.putAll(getFieldsMap());
         return fieldMap;
     }
 
