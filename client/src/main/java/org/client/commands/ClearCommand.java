@@ -3,11 +3,16 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
+import org.client.network.NetworkByteWrapper;
+import org.shared.network.Response;
+
+import java.nio.ByteBuffer;
 
 
-public class ClearCommand extends Command{
-    public ClearCommand() {
-        super("clear", "Команда для полной очистки коллекции.");
+public class ClearCommand extends ServerCommand{
+    public ClearCommand(Client client) {
+        super("clear", "Команда для полной очистки коллекции.", client);
     }
 
     @Override
@@ -19,7 +24,6 @@ public class ClearCommand extends Command{
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
         }
 
-        //collection.clearCollection();
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {});
     }
 }

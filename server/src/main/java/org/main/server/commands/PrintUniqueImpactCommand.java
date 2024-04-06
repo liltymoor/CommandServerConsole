@@ -14,17 +14,11 @@ public class PrintUniqueImpactCommand extends Command {
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length != 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
-        }
-
+    public CommandResult action(Object[] params) {
+        StringBuilder sb = new StringBuilder();
         for (Long impact : collection.getUniqueImpact())
-            System.out.println(impact);
+            sb.append(impact).append(" ");
 
-        return new CommandResult(ActionCode.OK);
+        return new CommandResult(ActionCode.OK, sb.toString());
     }
 }

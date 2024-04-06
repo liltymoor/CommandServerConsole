@@ -3,6 +3,7 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
 
 public class SaveCommand extends Command{
     public SaveCommand() {
@@ -20,6 +21,7 @@ public class SaveCommand extends Command{
 
 //        if (collection.flushToJson())
 //            return new CommandResult(ActionCode.OK);
-        return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong with collection.");
+//        return sendCommand(new Object[] {});
+        return new CommandResult(ActionCode.OK);
     }
 }

@@ -5,17 +5,22 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
-import org.client.model.entity.Car;
-import org.client.model.entity.HumanBeing;
-import org.client.model.entity.params.Coordinates;
-import org.client.model.entity.params.Mood;
-import org.client.model.weapon.WeaponType;
+import org.client.models.HumanBeingFormed;
+import org.client.network.Client;
+import org.client.network.NetworkByteWrapper;
+import org.shared.model.entity.Car;
+import org.shared.model.entity.HumanBeing;
+import org.shared.model.entity.params.Coordinates;
+import org.shared.model.entity.params.Mood;
+import org.shared.model.weapon.WeaponType;
+import org.shared.network.Response;
 
+import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 
-public class AddIfMinCommand extends Command implements InputCompoundable {
-    public AddIfMinCommand() {
-        super("add_if_min", "Команда для добавления элемента в коллекцию, если элемент минимальный");
+public class AddIfMinCommand extends ServerCommand implements InputCompoundable {
+    public AddIfMinCommand(Client client) {
+        super("add_if_min", "Команда для добавления элемента в коллекцию, если элемент минимальный", client);
     }
 
     @Override
@@ -55,15 +60,11 @@ public class AddIfMinCommand extends Command implements InputCompoundable {
         }  catch (Exception ex) {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
-//        if (collection.isMinimal(being)) {
-//            collection.addToCollection(being);
-//            return new CommandResult(ActionCode.OK);
-//        }
-        return new CommandResult(ActionCode.NOT_MINIMAL);
+        return sendCommand(new Object[] {being});
     }
 
     @Override
     public LinkedHashMap<String, InputRule> getArgCompound() {
-        return HumanBeing.getFieldsMap();
+        return HumanBeingFormed.getFieldsMap();
     }
 }

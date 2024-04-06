@@ -3,10 +3,11 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
 
-public class ShowCommand extends Command {
-    public ShowCommand() {
-        super("show", "Команда для вывода в терминал элементов коллекции.");
+public class ShowCommand extends ServerCommand {
+    public ShowCommand(Client client) {
+        super("show", "Команда для вывода в терминал элементов коллекции.", client);
     }
 
     @Override
@@ -19,6 +20,7 @@ public class ShowCommand extends Command {
         }
 
 //        collection.forEach(System.out::println);
-        return new CommandResult(ActionCode.OK);
+
+        return sendCommand(new Object[] {});
     }
 }

@@ -1,6 +1,8 @@
 package org.client.network;
 
 import org.client.exceptions.ServerIsNullException;
+import org.shared.network.Request;
+import org.shared.network.Response;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -8,7 +10,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
 public class Client {
-    final private int BUFFER_SIZE = 1024;
     final private DatagramChannel channel;
     final private InetSocketAddress serverAddress = new InetSocketAddress("localhost", 8000);
 
@@ -19,20 +20,21 @@ public class Client {
     public static Client startClient() throws IOException {
         // Получаем канал свободный канал, кста он возьмет случайный порт
         DatagramChannel channel = DatagramChannel.open();
-        channel.configureBlocking(false);
+        channel.configureBlocking(true);
         return new Client(channel);
     }
 
     public void send(ByteBuffer buffer) {
         try {
             channel.send(buffer, serverAddress);
+            System.out.println("Запрос успешно отправлен");
         } catch (IOException e) {
             System.out.format("Ошибка отправки: %s\n", e.getMessage());
         }
 
     }
 
-    public Object sendAndGetResponse(ByteBuffer buffer) {
+    public Response sendAndGetResponse(ByteBuffer buffer) {
         send(buffer);
         // Получаем ответ от сервера
         try {
@@ -44,15 +46,13 @@ public class Client {
     }
 
     //TODO Переделать под класс Response
-    private Object receiveResponse() throws IOException, ServerIsNullException {
-        ByteBuffer receiveBuffer = ByteBuffer.allocate(BUFFER_SIZE);
-        InetSocketAddress server = (InetSocketAddress) channel.receive(receiveBuffer);
+    private Response receiveResponse() throws IOException, ServerIsNullException {
+        ByteBuffer receiveBuffer = ByteBuffer.allocate(Response.RESPONSE_SIZE);
+        System.out.println("Ждем ответ от сервера...");
+        InetSocketAddress serverAnswer = (InetSocketAddress) channel.receive(receiveBuffer);
 
-        if (server == null) throw new ServerIsNullException();
-
+        if (serverAnswer == null) throw new ServerIsNullException();
         receiveBuffer.flip();
-        byte[] data = new byte[receiveBuffer.limit()];
-        receiveBuffer.get(data);
-        return NetworkByteWrapper.unwrapResponse(data);
+        return NetworkByteWrapper.unwrapResponse(receiveBuffer);
     }
 }

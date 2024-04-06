@@ -5,12 +5,13 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
 
 import java.util.LinkedHashMap;
 
-public class CountGreaterThanImpactCommand extends Command implements InputCompoundable {
-    public CountGreaterThanImpactCommand() {
-        super("count_greater_than_impact", "Вывести количество элементов в коллекции, которые выше указанной величины impact");
+public class CountGreaterThanImpactCommand extends ServerCommand implements InputCompoundable {
+    public CountGreaterThanImpactCommand(Client client) {
+        super("count_greater_than_impact", "Вывести количество элементов в коллекции, которые выше указанной величины impact", client);
     }
 
     @Override
@@ -30,7 +31,8 @@ public class CountGreaterThanImpactCommand extends Command implements InputCompo
         }
 
         //System.out.println(collection.countImpactSpeedGreater(impactSpeed));
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {impactSpeed});
+
     }
 
     @Override

@@ -3,11 +3,12 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
 
 
-public class PrintUniqueImpactCommand extends Command {
-    public PrintUniqueImpactCommand() {
-        super("print_unique_impact", "Команда для просмотра уникальных значений скорости");
+public class PrintUniqueImpactCommand extends ServerCommand {
+    public PrintUniqueImpactCommand(Client client) {
+        super("print_unique_impact", "Команда для просмотра уникальных значений скорости", client);
     }
 
     @Override
@@ -22,6 +23,6 @@ public class PrintUniqueImpactCommand extends Command {
 //        for (Long impact : collection.getUniqueImpact())
 //            System.out.println(impact);
 
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {});
     }
 }

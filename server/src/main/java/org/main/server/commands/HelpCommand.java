@@ -14,13 +14,7 @@ public class HelpCommand extends Command {
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length > 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
-        }
+    public CommandResult action(Object[] params) {
         host.getCommands().values().forEach(command -> {
             System.out.print("%s : %s%n".formatted(command.getName(), command.getDescription()));
         });

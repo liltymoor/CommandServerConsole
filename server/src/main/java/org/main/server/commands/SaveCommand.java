@@ -13,14 +13,7 @@ public class SaveCommand extends Command{
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length != 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
-        }
-
+    public CommandResult action(Object[] params) {
         if (collection.flushToJson())
             return new CommandResult(ActionCode.OK);
         return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong with collection.");

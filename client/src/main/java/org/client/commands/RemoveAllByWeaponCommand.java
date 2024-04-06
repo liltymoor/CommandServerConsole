@@ -5,13 +5,14 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
-import org.client.model.weapon.WeaponType;
+import org.client.network.Client;
+import org.shared.model.weapon.WeaponType;
 
 import java.util.LinkedHashMap;
 
-public class RemoveAllByWeaponCommand extends Command implements InputCompoundable {
-    public RemoveAllByWeaponCommand() {
-        super("remove_all_by_weapon", "Команда для удаления всех записей с указанным оружием");
+public class RemoveAllByWeaponCommand extends ServerCommand implements InputCompoundable {
+    public RemoveAllByWeaponCommand(Client client) {
+        super("remove_all_by_weapon", "Команда для удаления всех записей с указанным оружием", client);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class RemoveAllByWeaponCommand extends Command implements InputCompoundab
 
 //        collection.removeByWeapon(weaponType);
 
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {weaponType});
     }
 
     @Override

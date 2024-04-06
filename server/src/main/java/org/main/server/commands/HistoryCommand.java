@@ -13,17 +13,11 @@ public class HistoryCommand extends Command {
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length != 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
-        }
-
+    public CommandResult action(Object[] params) {
+        StringBuilder sb = new StringBuilder();
         for (String command : host.getHistory(5))
-            System.out.println(command);
+            sb.append(command).append(" ");
 
-        return new CommandResult(ActionCode.OK);
+        return new CommandResult(ActionCode.OK, sb.toString());
     }
 }

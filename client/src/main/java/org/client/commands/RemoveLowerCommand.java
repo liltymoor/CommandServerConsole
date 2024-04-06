@@ -5,17 +5,19 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
-import org.client.model.entity.Car;
-import org.client.model.entity.HumanBeing;
-import org.client.model.entity.params.Coordinates;
-import org.client.model.entity.params.Mood;
-import org.client.model.weapon.WeaponType;
+import org.client.models.HumanBeingFormed;
+import org.client.network.Client;
+import org.shared.model.entity.Car;
+import org.shared.model.entity.HumanBeing;
+import org.shared.model.entity.params.Coordinates;
+import org.shared.model.entity.params.Mood;
+import org.shared.model.weapon.WeaponType;
 
 import java.util.LinkedHashMap;
 
-public class RemoveLowerCommand extends Command implements InputCompoundable {
-    public RemoveLowerCommand() {
-        super("remove_lower", "Команда удаляет все элементы меньше заданного");
+public class RemoveLowerCommand extends ServerCommand implements InputCompoundable {
+    public RemoveLowerCommand(Client client) {
+        super("remove_lower", "Команда удаляет все элементы меньше заданного", client);
     }
 
     @Override
@@ -61,11 +63,11 @@ public class RemoveLowerCommand extends Command implements InputCompoundable {
 //                collection.removeFromCollection(humanBeing);
 //        });
 
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {being});
     }
 
     @Override
     public LinkedHashMap<String, InputRule> getArgCompound() {
-        return HumanBeing.getFieldsMap();
+        return HumanBeingFormed.getFieldsMap();
     }
 }

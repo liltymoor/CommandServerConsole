@@ -3,11 +3,12 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
 
 
-public class RemoveCommand extends Command{
-    public RemoveCommand() {
-        super("remove", "Команда удаляет элемент из коллекци по ID.");
+public class RemoveCommand extends ServerCommand{
+    public RemoveCommand(Client client) {
+        super("remove", "Команда удаляет элемент из коллекци по ID.", client);
     }
 
     @Override
@@ -23,6 +24,7 @@ public class RemoveCommand extends Command{
 //        if(collection.removeFromCollection(idToRemove))
 //            return new CommandResult(ActionCode.OK);
 
-        return new CommandResult(ActionCode.BAD_INPUT, "Entity wasn't found");
+        return sendCommand(new Object[] {idToRemove});
+
     }
 }

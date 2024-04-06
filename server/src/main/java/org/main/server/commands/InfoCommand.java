@@ -13,14 +13,8 @@ public class InfoCommand extends Command{
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length > 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
-        }
-        System.out.printf("Размер: %d, Тип: LinkedHashSet, Название коллекции: %s%n", collectionIO.size(), collectionIO.getCollectionName());
-        return new CommandResult(ActionCode.OK);
+    public CommandResult action(Object[] params) {
+        String result = String.format("Размер: %d, Тип: LinkedHashSet, Название коллекции: %s%n", collectionIO.size(), collectionIO.getCollectionName());
+        return new CommandResult(ActionCode.OK, result);
     }
 }

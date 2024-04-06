@@ -1,6 +1,7 @@
 package org.client.commands.managers;
 
 import org.client.commands.Command;
+import org.client.exceptions.MaxScriptDepthReachedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,9 @@ import java.util.Map;
 public class CommandHost {
     private List<String> commandExecutionHistory;
     private Map<String, Command> commandMap;
+
+    private final int maxDepth = 30;
+    private int currentDepth = 0;
 
     public CommandHost() {
         commandExecutionHistory = new ArrayList<>();
@@ -52,5 +56,19 @@ public class CommandHost {
                 commandExecutionHistory.size() - 1 - last,
                 commandExecutionHistory.size()
         );
+    }
+
+    public void dropDepth() {
+        currentDepth = 0;
+    }
+
+    public int getDepth() {
+        return currentDepth;
+    }
+
+    public void increaseDepth() throws MaxScriptDepthReachedException {
+        if (currentDepth >= maxDepth)
+            throw new MaxScriptDepthReachedException(maxDepth);
+        currentDepth++;
     }
 }

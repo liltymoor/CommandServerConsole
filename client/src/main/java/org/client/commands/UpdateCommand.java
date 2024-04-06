@@ -6,18 +6,21 @@ import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.BadLogicWereEaten;
 import org.client.exceptions.WrongArgException;
-import org.client.model.entity.Car;
-import org.client.model.entity.HumanBeing;
-import org.client.model.entity.params.Coordinates;
-import org.client.model.entity.params.Mood;
-import org.client.model.weapon.WeaponType;
+import org.client.models.HumanBeingFormed;
+import org.client.network.Client;
+import org.shared.model.entity.Car;
+import org.shared.model.entity.HumanBeing;
+import org.shared.model.entity.params.Coordinates;
+import org.shared.model.entity.params.Mood;
+import org.shared.model.weapon.WeaponType;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 
-public class UpdateCommand extends Command implements InputCompoundable {
+public class UpdateCommand extends ServerCommand implements InputCompoundable {
     LinkedHashMap<String, InputRule> inputCompound;
-    public UpdateCommand() {
-        super("update", "Команда для обновления сущности в коллекции.");
+    public UpdateCommand(Client client) {
+        super("update", "Команда для обновления сущности в коллекции.", client);
     }
 
     @Override
@@ -56,18 +59,18 @@ public class UpdateCommand extends Command implements InputCompoundable {
             Car car = new Car(params[10]);
 
             being = new HumanBeing(name, coords, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car);
-        } catch (BadLogicWereEaten ex) {
+        } catch (BadLogicWereEaten | IOException ex) {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
 
         being.setId(id);
 //        if (collection.editCollectionEntity(being))
 //            return new CommandResult(ActionCode.OK);
-        return new CommandResult(ActionCode.BAD_INPUT, "Entity wasn't found");
+        return sendCommand(new Object[] {being});
     }
 
     @Override
     public LinkedHashMap<String, InputRule> getArgCompound() {
-        return HumanBeing.getFieldsMapWithId();
+        return HumanBeingFormed.getFieldsMapWithId();
     }
 }

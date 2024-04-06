@@ -4,15 +4,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.main.server.model.entity.HumanBeing;
-import org.main.server.model.serializer.ZonedDTSerializer;
-import org.main.server.model.weapon.WeaponType;
+import org.shared.model.entity.HumanBeing;
+//import org.shared.model.serializer.ZonedDTSerializer;
+import org.shared.model.weapon.WeaponType;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * @author lil_timmie
@@ -21,14 +22,13 @@ import java.util.function.Consumer;
 public class CollectionIO {
     private FileInputStream fileIStream;
     private BufferedInputStream bufferedIStream;
-    private String collectionName;
+    public static String collectionName = System.getenv("collectionName");
 
     private static int lastId = 0;
 
     private LinkedHashSet<HumanBeing> resultSet;
 
     public CollectionIO() {
-        collectionName = System.getenv("COLLECTION_FILE_NAME");
         if (!isCollectionCreated()) {
             System.out.println("Collection doesn't exist");
             File file = new File(collectionName);
@@ -62,26 +62,11 @@ public class CollectionIO {
     }
 
     public static boolean isCollectionCreated() {
-        int[]a = new int[9];
-        Arrays.compare(a,a);
-        StringBuilder builder = new StringBuilder();
-        builder.append(System.getenv("COLLECTION_FILE_NAME")).append(".json").append(System.lineSeparator());
-        builder.append(System.getenv("COLLECTION_FILE_NAME"+".json"+System.lineSeparator()));
-        String collectionName = System.getenv("COLLECTION_FILE_NAME");
-        String jsonString = "";
-        String collefctionName = System.getenv("COLLECTION_FILE_NAME");
-        jsonString += collefctionName;
-        try (FileInputStream stream = new FileInputStream(collectionName)) {
+        String collectionName = CollectionIO.collectionName;
+        try {
+            FileInputStream stream = new FileInputStream(collectionName);
             return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    public static boolean isCollectionCreated(String collectionName) {
-        try (FileInputStream stream = new FileInputStream(collectionName)) {
-            return true;
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             return false;
         }
     }
@@ -110,12 +95,12 @@ public class CollectionIO {
     }
 
     public boolean flushToJson() {
-        try (FileWriter fileWriter = new FileWriter(System.getenv("COLLECTION_FILE_NAME"));){
+        try (FileWriter fileWriter = new FileWriter(collectionName)){
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             SimpleModule module = new SimpleModule();
-            module.addSerializer(ZonedDateTime.class, new ZonedDTSerializer());
+            //module.addSerializer(ZonedDateTime.class, new ZonedDTSerializer());
             mapper.registerModule(module);
 
             String data = mapper.writeValueAsString(resultSet);
@@ -125,6 +110,13 @@ public class CollectionIO {
             System.out.println(ex);
             return false;
         }
+    }
+
+    public String printCollection() {
+        StringBuilder sb = new StringBuilder();
+        for (HumanBeing being: resultSet)
+            sb.append(being.toString()).append("\n");
+        return sb.toString();
     }
 
     public void printSuccess() {
@@ -159,14 +151,14 @@ public class CollectionIO {
     }
 
     public boolean removeFromCollection(int id) {
-        for (HumanBeing being: resultSet)
-            if (being.getId() == id) {
-                int idToRemove = being.getId();
-                resultSet.remove(being);
-                if (idToRemove == lastId)
-                    setLastId();
-                return true;
-            }
+        HumanBeing human = resultSet.stream()
+                .filter(humanBeing -> humanBeing.getId() == id)
+                .findFirst()
+                .orElse(null);
+        if (human != null) {
+            removeFromCollection(human);
+            return true;
+        }
         return false;
     }
 
@@ -183,23 +175,19 @@ public class CollectionIO {
     }
 
     public void removeByWeapon(WeaponType weaponType) {
-        List<HumanBeing> removeQueue = new ArrayList<>();
+        List<HumanBeing> removeQueue = resultSet.stream()
+                .filter(humanBeing -> humanBeing.getWeaponType() == weaponType)
+                .toList();
 
-        // Mark all entities with weaponType to be removed
-        for (HumanBeing being: resultSet)
-            if (being.getWeaponType().ordinal() == weaponType.ordinal())
-                removeQueue.add(being);
-
-        for (HumanBeing being: removeQueue)
-            removeFromCollection(being);
+        removeQueue.forEach(this::removeFromCollection);
     }
 
     public boolean isMinimal(HumanBeing entity) {
-        for (HumanBeing being: resultSet)
-            if (being.compareTo(entity) < 0)
-                return false;
-
-        return true;
+        var result = resultSet.stream()
+                .filter(human -> human.compareTo(entity) > 0)
+                .findFirst()
+                .orElse(null);
+        return result == null;
     }
 
     public int countImpactSpeedGreater(Long speed) {

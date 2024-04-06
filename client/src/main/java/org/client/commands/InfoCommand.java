@@ -3,10 +3,11 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
+import org.client.network.Client;
 
-public class InfoCommand extends Command {
-    public InfoCommand() {
-        super("info", "Команда для вывода в терминал информации о коллекции.");
+public class InfoCommand extends ServerCommand {
+    public InfoCommand(Client client) {
+        super("info", "Команда для вывода в терминал информации о коллекции.", client);
     }
 
     @Override
@@ -18,6 +19,6 @@ public class InfoCommand extends Command {
             return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
         }
 //        System.out.printf("Размер: %d, Тип: LinkedHashSet, Название коллекции: %s%n", collectionIO.size(), collectionIO.getCollectionName());
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {});
     }
 }

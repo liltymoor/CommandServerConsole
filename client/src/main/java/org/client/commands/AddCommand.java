@@ -5,17 +5,22 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
-import org.client.model.entity.Car;
-import org.client.model.entity.HumanBeing;
-import org.client.model.entity.params.Coordinates;
-import org.client.model.entity.params.Mood;
-import org.client.model.weapon.WeaponType;
+import org.client.models.HumanBeingFormed;
+import org.shared.model.entity.Car;
+import org.shared.model.entity.HumanBeing;
+import org.shared.model.entity.params.Coordinates;
+import org.shared.model.entity.params.Mood;
+import org.shared.model.weapon.WeaponType;
+import org.client.network.Client;
+import org.client.network.NetworkByteWrapper;
+import org.shared.network.Response;
 
+import java.nio.ByteBuffer;
 import java.util.LinkedHashMap;
 
-public class AddCommand extends Command implements InputCompoundable {
-    public AddCommand() {
-        super("add", "Команда для добавления сущности в коллекцию HumanBeing.");
+public class AddCommand extends ServerCommand implements InputCompoundable {
+    public AddCommand(Client client) {
+        super("add", "Команда для добавления сущности в коллекцию HumanBeing.", client);
     }
 
     @Override
@@ -57,12 +62,11 @@ public class AddCommand extends Command implements InputCompoundable {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
 
-//        collection.addToCollection(being);
-        return new CommandResult(ActionCode.OK);
+        return sendCommand(new Object[] {being});
     }
 
     @Override
     public LinkedHashMap<String, InputRule> getArgCompound() {
-        return HumanBeing.getFieldsMap();
+        return HumanBeingFormed.getFieldsMap();
     }
 }
