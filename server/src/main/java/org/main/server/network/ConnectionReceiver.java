@@ -20,10 +20,12 @@ public class ConnectionReceiver {
         this.server = server;
     }
 
-    public void receive() {
-        ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
+    public void receive(ByteBuffer buffer) {
+        buffer.clear();
         try {
             SocketAddress clientRequest = server.receive(buffer);
+            if (clientRequest == null) return;
+
             System.out.format("[REQUEST]: Received from %s:%s%n", (
                     (InetSocketAddress) clientRequest).getHostName(),
                     ((InetSocketAddress) clientRequest).getPort()

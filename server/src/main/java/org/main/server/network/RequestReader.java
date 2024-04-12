@@ -25,6 +25,8 @@ public class RequestReader {
 
     public static Request read(ByteBuffer buffer) {
         buffer.flip();
-        return unwrapRequset(buffer);
+        Request request = unwrapRequset(buffer);
+        buffer.flip();
+        return request;
     }
 }

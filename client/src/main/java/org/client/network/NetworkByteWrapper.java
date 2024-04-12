@@ -8,7 +8,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-public class NetworkByteWrapper {
+public class NetworkByteWrapper implements Serializable{
     public static ByteBuffer wrapRequest(Command command, Object[] args) {
         Request request = new Request(command.getName(), args);
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -20,7 +20,6 @@ public class NetworkByteWrapper {
         return null;
     }
 
-    // TODO Вместо объекта сделать класс с Respons'ом
     public static Response unwrapResponse(ByteBuffer buffer) {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(buffer.array(), 0 , buffer.limit() );
              ObjectInputStream ois = new ObjectInputStream(bis)) {

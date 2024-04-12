@@ -38,4 +38,19 @@ public class CommandInvoker {
         return command.action(new Object[] {});
 
     }
+
+    public CommandResult invoke(Command commandToInvoke , Object[] params) throws CommandNotFoundException {
+        if (commandToInvoke == null)
+            throw new CommandNotFoundException();
+        host.appendHistory(commandToInvoke);
+        return commandToInvoke.action(params);
+    }
+
+    public CommandResult invoke(Command commandToInvoke) {
+        if (commandToInvoke == null)
+            throw new CommandNotFoundException();
+        host.appendHistory(commandToInvoke);
+        return commandToInvoke.action(new Object[] {});
+
+    }
 }
