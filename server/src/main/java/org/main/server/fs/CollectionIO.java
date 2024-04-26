@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.main.server.serializer.ZonedDTSerializer;
 import org.shared.model.entity.HumanBeing;
 //import org.shared.model.serializer.ZonedDTSerializer;
 import org.shared.model.weapon.WeaponType;
@@ -29,6 +30,8 @@ public class CollectionIO {
     private LinkedHashSet<HumanBeing> resultSet;
 
     public CollectionIO() {
+        System.out.format("[HOST] Working Dir: %s%n", System.getProperty("user.dir"));
+        System.out.format("[HOST] Collection name: %s%n", collectionName);
         if (!isCollectionCreated()) {
             System.out.println("Collection doesn't exist");
             File file = new File(collectionName);
@@ -100,7 +103,7 @@ public class CollectionIO {
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             SimpleModule module = new SimpleModule();
-            //module.addSerializer(ZonedDateTime.class, new ZonedDTSerializer());
+            module.addSerializer(ZonedDateTime.class, new ZonedDTSerializer());
             mapper.registerModule(module);
 
             String data = mapper.writeValueAsString(resultSet);

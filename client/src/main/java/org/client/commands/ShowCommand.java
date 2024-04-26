@@ -11,15 +11,13 @@ public class ShowCommand extends ServerCommand {
     }
 
     @Override
-    public CommandResult action(String[] params) {
+    public CommandResult action(Object[] params) {
         try {
             if (params.length > 0)
                 throw new WrongArgException();
         } catch (WrongArgException ex) {
             return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
         }
-
-//        collection.forEach(System.out::println);
 
         return sendCommand(new Object[] {});
     }

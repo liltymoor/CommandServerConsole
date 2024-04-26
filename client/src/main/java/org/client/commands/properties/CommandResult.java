@@ -21,7 +21,7 @@ public class CommandResult {
 
     @Override
     public String toString() {
-        return "%s | %s".formatted(code.toString(), message);
+        return "Code: %s".formatted(message);
     }
 
     private static HashMap<String, String> getCodesDescription() {

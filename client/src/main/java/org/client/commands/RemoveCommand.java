@@ -12,7 +12,7 @@ public class RemoveCommand extends ServerCommand{
     }
 
     @Override
-    public CommandResult action(String[] params) {
+    public CommandResult action(Object[] params) {
         try {
             if (params.length != 1)
                 throw new WrongArgException();
@@ -20,9 +20,7 @@ public class RemoveCommand extends ServerCommand{
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
         }
 
-        int idToRemove = Integer.parseInt(params[0]);
-//        if(collection.removeFromCollection(idToRemove))
-//            return new CommandResult(ActionCode.OK);
+        int idToRemove = Integer.parseInt((String) params[0]);
 
         return sendCommand(new Object[] {idToRemove});
 

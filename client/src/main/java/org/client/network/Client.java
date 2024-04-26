@@ -18,6 +18,7 @@ public class Client {
     }
 
     public static Client startClient() throws IOException {
+        System.out.printf("Going to udp him: %s:%s%n", "172.18.0.2", 8000);
         // Получаем канал свободный канал, кста он возьмет случайный порт
         DatagramChannel channel = DatagramChannel.open();
         channel.configureBlocking(true);

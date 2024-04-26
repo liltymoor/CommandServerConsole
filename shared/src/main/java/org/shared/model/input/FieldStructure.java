@@ -1,23 +1,18 @@
-package org.main.server.commands.managers;
+package org.shared.model.input;
 
-public class InputRule {
+public class FieldStructure {
     private String name = "No name";
     private String description = "No description";
+    private boolean nullable = false;
 
     private String defaultValue = null;
 
-    private Checker checker;
-    public InputRule(String name, String description) {
+    public FieldStructure(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public InputRule setRule(Checker checker) {
-        this.checker = checker;
-        return this;
-    }
-
-    public InputRule setDefault(String defaultValue) {
+    public FieldStructure setDefault(String defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
@@ -29,10 +24,9 @@ public class InputRule {
     public String getName() {
         return name;
     }
+    public boolean isNullable() { return nullable; }
 
-    public boolean check(String input) {
-        return checker.check(input);
-    }
+    public FieldStructure notNullable() { nullable = true; return this; }
 
     @Override
     public String toString() {

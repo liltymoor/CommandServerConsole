@@ -1,17 +1,15 @@
 package org.main.server.commands;
 
-import org.main.server.commands.managers.InputRule;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
-import org.main.server.commands.properties.InputCompoundable;
+import org.main.server.commands.properties.HostActionable;
 import org.main.server.exceptions.WrongArgException;
 import org.main.server.fs.CollectionIO;
 import org.shared.model.weapon.WeaponType;
 
-import java.util.LinkedHashMap;
-
-public class RemoveAllByWeaponCommand extends Command {
+public class RemoveAllByWeaponCommand extends ClientCommand implements HostActionable {
     CollectionIO collection;
+
     public RemoveAllByWeaponCommand(CollectionIO collection) {
         super("remove_all_by_weapon", "Команда для удаления всех записей с указанным оружием");
         this.collection = collection;
@@ -22,12 +20,30 @@ public class RemoveAllByWeaponCommand extends Command {
         WeaponType weaponType;
         try {
             weaponType = (WeaponType) params[0];
-        }  catch (Exception ex) {
+        } catch (Exception ex) {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
 
         collection.removeByWeapon(weaponType);
 
         return new CommandResult(ActionCode.OK);
+    }
+
+    @Override
+    public CommandResult hostAction(String[] params) {
+        WeaponType weaponType;
+        try {
+            if (params.length == 0)
+                throw new WrongArgException();
+            weaponType = WeaponType.valueOf(params[0]);
+        } catch (Exception ex) {
+            return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
+        }
+        return action(new Object[]{weaponType});
+    }
+
+    @Override
+    public CommandResult hostAction(Object[] params) {
+        return action(params);
     }
 }

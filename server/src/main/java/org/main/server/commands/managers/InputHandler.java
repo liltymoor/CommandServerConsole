@@ -1,16 +1,15 @@
 package org.main.server.commands.managers;
 
+import org.main.server.commands.ClientCommand;
 import org.main.server.commands.Command;
+import org.main.server.commands.properties.HostActionable;
 import org.main.server.commands.properties.InputCompoundable;
 import org.main.server.exceptions.CommandNotFoundException;
+import org.main.server.exceptions.NotExecutableByHostException;
+import org.shared.model.input.buildrule.Builder;
 
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +32,7 @@ public class InputHandler {
         inputHost = new Scanner(System.in);
     }
 
-    private String[] parseInput (Matcher matcher) {
+    private String[] parseInput(Matcher matcher) {
         ArrayList<String> result = new ArrayList<>();
         while (matcher.find()) {
             result.add(matcher.group());
@@ -54,37 +53,38 @@ public class InputHandler {
             return;
         }
 
-        Command command = host.getCommands().get(splittedInput[0]);
+        HostActionable command;
+        try {
+            command = (HostActionable) host.getCommands().get(splittedInput[0]);
+        } catch (Exception ex) {
+            System.out.println(new NotExecutableByHostException().getMessage());
+            return;
+        }
 
         if (command instanceof InputCompoundable) {
-            LinkedHashMap<String, InputRule> compound = ((InputCompoundable) command).getArgCompound();
+            List<Builder<?>> toBuild = ((InputCompoundable) command).getArgCompound();
 
-            String[] params;
+            Object[] params;
 
             // If we have something (params) in first line of command
             if (splittedInput.length > 1) {
-                params = new String[compound.size() + splittedInput.length - 1];
+                params = new String[toBuild.size() + splittedInput.length - 1];
                 System.arraycopy(splittedInput, 1, params, 0, splittedInput.length - 1);
             } else
-                params = new String[compound.size()];
-
-
-            int counter = splittedInput.length - 1;
-
-            for (String field: compound.keySet()) {
-
-                InputRule rule = compound.get(field);
-                System.out.printf("%s %s: ", field, rule);
-                String compoundInput = inputHost.nextLine();
-
-                while (!rule.check(compoundInput)) {
-                    System.out.println("Incorrect input\n");
-                    System.out.printf("%s %s: ", field, rule);
-                    compoundInput = inputHost.nextLine();
+                params = new Object[toBuild.size()];
+            for (int i = 0; i < toBuild.size(); i++) {
+                Builder<?> builder = toBuild.get(i);
+                try { params[i] = builder.build(inputHost);}
+                catch (IOException ex) {
+                    System.out.printf("[HOST] Failed to build %s%n", builder.getName());
+                    return;
                 }
-                params[counter++] = compoundInput == "" ? null : compoundInput;
             }
-            System.out.printf("[HOST] %s%n", invoker.invoke(command, params).toString());
+            try {
+                System.out.printf("[HOST] %s%n", invoker.invokeHost(command, params).toString());
+            } catch (NotExecutableByHostException ex) {
+                System.out.println(ex.getMessage());
+            }
             return;
         }
 
@@ -92,11 +92,19 @@ public class InputHandler {
             String[] params = new String[splittedInput.length - 1];
             System.arraycopy(splittedInput, 1, params, 0, splittedInput.length - 1);
 
-            System.out.printf("[HOST] %s%n", invoker.invoke(command, params).toString());
+            try {
+                System.out.printf("[HOST] %s%n", invoker.invokeHost(command, params).toString());
+            } catch (NotExecutableByHostException e) {
+                System.out.println(e.getMessage());
+            }
 
             return;
         }
 
-        System.out.printf("[HOST] %s%n", invoker.invoke(command).toString());
+        try {
+            System.out.printf("[HOST] %s%n", invoker.invokeHost(command).toString());
+        } catch (NotExecutableByHostException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

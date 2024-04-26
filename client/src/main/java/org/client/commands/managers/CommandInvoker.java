@@ -15,22 +15,21 @@ public class CommandInvoker {
         this.host = host;
     }
 
-    public void invoke(Command commandToInvoke , String[] params) throws CommandNotFoundException {
+    public CommandResult invoke(Command commandToInvoke , Object[] params) throws CommandNotFoundException {
         if (commandToInvoke == null)
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
         CommandResult result = commandToInvoke.action(params);
-
-        if (result.getCode() != ActionCode.OK) {
-            System.out.println(result);
-            System.out.println("Please try again.");
-        }
+        System.out.printf("[CLIENT] %s%n", result.toString());
+        return result;
     }
 
-    public void invoke(Command commandToInvoke) {
+    public CommandResult invoke(Command commandToInvoke) {
         if (commandToInvoke == null)
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
-        commandToInvoke.action(new String[] {});
+        CommandResult result = commandToInvoke.action(new String[] {});
+        System.out.printf("[CLIENT] %s%n", result.toString());
+        return result;
     }
 }

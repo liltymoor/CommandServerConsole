@@ -2,11 +2,11 @@ package org.main.server.commands;
 
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
-import org.main.server.exceptions.WrongArgException;
+import org.main.server.commands.properties.HostActionable;
 import org.main.server.fs.CollectionIO;
 
 
-public class PrintUniqueImpactCommand extends Command {
+public class PrintUniqueImpactCommand extends ClientCommand implements HostActionable {
     CollectionIO collection;
     public PrintUniqueImpactCommand(CollectionIO collection) {
         super("print_unique_impact", "Команда для просмотра уникальных значений скорости");
@@ -20,5 +20,15 @@ public class PrintUniqueImpactCommand extends Command {
             sb.append(impact).append(" ");
 
         return new CommandResult(ActionCode.OK, sb.toString());
+    }
+
+    @Override
+    public CommandResult hostAction(String[] params) {
+        return action(params);
+    }
+
+    @Override
+    public CommandResult hostAction(Object[] params) {
+        return action(params);
     }
 }

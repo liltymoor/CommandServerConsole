@@ -11,9 +11,13 @@ import org.shared.model.entity.Car;
 import org.shared.model.entity.HumanBeing;
 import org.shared.model.entity.params.Coordinates;
 import org.shared.model.entity.params.Mood;
+import org.shared.model.input.buildrule.Builder;
+import org.shared.model.input.buildrule.HumanBeingBuilder;
 import org.shared.model.weapon.WeaponType;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class RemoveLowerCommand extends ServerCommand implements InputCompoundable {
     public RemoveLowerCommand(Client client) {
@@ -21,7 +25,7 @@ public class RemoveLowerCommand extends ServerCommand implements InputCompoundab
     }
 
     @Override
-    public CommandResult action(String[] params) {
+    public CommandResult action(Object[] params) {
         try {
             if (params.length != getArgCompound().size())
                 throw new WrongArgException();
@@ -31,43 +35,19 @@ public class RemoveLowerCommand extends ServerCommand implements InputCompoundab
 
         HumanBeing being;
         try {
-            String name = params[0];
-
-            Float x;
-            if (params[1] == null)
-                x = null;
-            else if (params[1].isEmpty()) {
-                x = null;
-            } else
-                x = Float.parseFloat(params[1]);
-
-            Long y = Long.parseLong(params[2]);
-
-            Coordinates coords = new Coordinates(x, y);
-
-            Boolean realHero = params[3].equals("true");
-            Boolean hasToothpick = params[4].equals("true");
-            Long impactSpeed = Long.parseLong(params[5]);
-            Double minutesOfWaiting = Double.parseDouble(params[6]);
-            WeaponType weaponType = WeaponType.valueOf(params[7]);
-            Mood mood = Mood.valueOf(params[8]);
-            Car car = new Car(params[9]);
-
-            being = new HumanBeing(name, coords, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car);
-        }  catch (Exception ex) {
+            being = (HumanBeing) params[0];
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
-
-//        collection.forEach(humanBeing -> {
-//            if (humanBeing.compareTo(being) < 0)
-//                collection.removeFromCollection(humanBeing);
-//        });
 
         return sendCommand(new Object[] {being});
     }
 
     @Override
-    public LinkedHashMap<String, InputRule> getArgCompound() {
-        return HumanBeingFormed.getFieldsMap();
+    public List<Builder<?>> getArgCompound() {
+        List<Builder<?>> toBuild = new ArrayList<>();
+        toBuild.add(new HumanBeingBuilder());
+        return toBuild;
     }
 }

@@ -5,7 +5,7 @@ import org.main.server.commands.properties.CommandResult;
 import org.main.server.exceptions.WrongArgException;
 import org.main.server.fs.CollectionIO;
 
-public class SaveCommand extends Command{
+public class SaveCommand extends HostCommand{
     CollectionIO collection;
     public SaveCommand(CollectionIO collection) {
         super("save", "Команда для сохранения коллекции в файл.");
@@ -13,9 +13,27 @@ public class SaveCommand extends Command{
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult hostAction(String[] params) {
+        if (params.length > 0)
+            throw new WrongArgException();
+
         if (collection.flushToJson())
             return new CommandResult(ActionCode.OK);
-        return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong with collection.");
+        return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong while saving collection.");
+    }
+
+    @Override
+    public CommandResult hostAction(Object[] params) {
+
+        try {
+            if (params.length > 0)
+                throw new WrongArgException();
+        } catch (WrongArgException ex) {
+            return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
+        }
+
+        if (collection.flushToJson())
+            return new CommandResult(ActionCode.OK);
+        return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong while saving collection.");
     }
 }

@@ -1,7 +1,9 @@
 package org.main.server.network;
 
 import org.main.server.commands.managers.CommandInvoker;
+import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
+import org.main.server.exceptions.NotExecutableByClient;
 import org.shared.network.Request;
 
 import java.io.IOException;
@@ -33,13 +35,11 @@ public class ConnectionReceiver {
             System.out.format("[REQUEST]: Packet size %s%n", buffer.remaining());
             Request request = RequestReader.read(buffer);
             System.out.format("[REQUEST]: Command: %s | Parameters: %s%n", request.getCommandName(), request.getArgs().length);
-
             CommandResult result = invoker.invoke(request.getCommandName(), request.getArgs());
             System.out.printf("[REQUEST]: Action code: %s | Result: %s%n", result.getCode(), result);
             emitter.emit(result, (InetSocketAddress) clientRequest);
         } catch (IOException e) {
             System.out.println("[ERROR]: " + e.getMessage());
         }
-
     }
 }

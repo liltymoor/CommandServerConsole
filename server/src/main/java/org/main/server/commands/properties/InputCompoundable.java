@@ -1,9 +1,8 @@
 package org.main.server.commands.properties;
 
-import org.main.server.commands.managers.InputRule;
-
-import java.util.LinkedHashMap;
+import org.shared.model.input.buildrule.Builder;
+import java.util.List;
 
 public interface InputCompoundable {
-    public LinkedHashMap<String, InputRule> getArgCompound();
+    public List<Builder<?>> getArgCompound();
 }

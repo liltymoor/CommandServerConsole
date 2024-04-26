@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  * @author lil_timmie
  * Класс-помощник для сериализации {@link ZonedDateTime}.
  */
-public class ZonedDTSerializer extends StdSerializer<ZonedDateTime> {
+public class  ZonedDTSerializer extends StdSerializer<ZonedDateTime> {
     public ZonedDTSerializer() {
         this(null);
     }

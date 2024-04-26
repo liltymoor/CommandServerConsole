@@ -1,5 +1,5 @@
 package org.main.server.commands.managers;
 
-public interface Checkable {
+public interface Checker {
     public boolean check(String input);
 }

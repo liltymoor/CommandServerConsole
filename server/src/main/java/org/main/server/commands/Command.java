@@ -1,9 +1,8 @@
 package org.main.server.commands;
 
-import org.main.server.commands.properties.Actionable;
 import org.main.server.commands.properties.Describable;
 
-public abstract class Command implements Actionable, Describable {
+public abstract class Command implements Describable {
     private String commandName;
     private String description = "";
 
@@ -30,4 +29,5 @@ public abstract class Command implements Actionable, Describable {
     public String toString() {
         return "Command: %s%nDescription: %s".formatted(this.commandName, this.description);
     }
+
 }

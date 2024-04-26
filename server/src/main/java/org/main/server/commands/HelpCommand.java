@@ -4,9 +4,9 @@ package org.main.server.commands;
 import org.main.server.commands.managers.CommandHost;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
-import org.main.server.exceptions.WrongArgException;
+import org.main.server.commands.properties.HostActionable;
 
-public class HelpCommand extends Command {
+public class HelpCommand extends ClientCommand implements HostActionable {
     private CommandHost host;
     public HelpCommand(CommandHost host) {
         super("help", "Команда для вывода в терминал списка всех комманд.");
@@ -19,5 +19,15 @@ public class HelpCommand extends Command {
             System.out.print("%s : %s%n".formatted(command.getName(), command.getDescription()));
         });
         return new CommandResult(ActionCode.OK);
+    }
+
+    @Override
+    public CommandResult hostAction(String[] params) {
+        return action(params);
+    }
+
+    @Override
+    public CommandResult hostAction(Object[] params) {
+        return action(params);
     }
 }

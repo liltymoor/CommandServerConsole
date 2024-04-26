@@ -12,17 +12,10 @@ public class PrintUniqueImpactCommand extends ServerCommand {
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length != 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
-        }
+    public CommandResult action(Object[] params) {
+        if (params.length != 0)
+            return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
 
-//        for (Long impact : collection.getUniqueImpact())
-//            System.out.println(impact);
-
-        return sendCommand(new Object[] {});
+        return sendCommand(new Object[]{});
     }
 }

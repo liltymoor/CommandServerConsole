@@ -11,14 +11,9 @@ public class InfoCommand extends ServerCommand {
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length > 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
+    public CommandResult action(Object[] params) {
+        if (params.length > 0)
             return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
-        }
-//        System.out.printf("Размер: %d, Тип: LinkedHashSet, Название коллекции: %s%n", collectionIO.size(), collectionIO.getCollectionName());
-        return sendCommand(new Object[] {});
+        return sendCommand(new Object[]{});
     }
 }

@@ -12,8 +12,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ExecuteScriptCommand extends Command {
     InputHandler inputHandler;
@@ -26,15 +24,11 @@ public class ExecuteScriptCommand extends Command {
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length != 1)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "Please, provide script name.");
-        }
+    public CommandResult action(Object[] params) {
+        if (params.length != 1)
+            return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
 
-        String scriptName = params[0];
+        String scriptName = (String) params[0];
         String script = "";
 
         try {

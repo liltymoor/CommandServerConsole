@@ -11,13 +11,14 @@ import java.nio.ByteBuffer;
 
 public class ExitCommand extends ServerCommand {
     SaveCommand saveCommand;
+    // deprecated
     public ExitCommand(SaveCommand saveCommand, Client client) {
         super("exit", "Команда для выхода из программы", client);
         this.saveCommand = saveCommand;
     }
 
     @Override
-    public CommandResult action(String[] params) {
+    public CommandResult action(Object[] params) {
         try {
             if (params.length != 0)
                 throw new WrongArgException();

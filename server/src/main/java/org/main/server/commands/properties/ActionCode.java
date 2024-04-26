@@ -5,4 +5,5 @@ public enum ActionCode {
     BAD_INPUT,
     UNKNOWN_ERROR,
     NOT_MINIMAL,
+    ERROR
 }

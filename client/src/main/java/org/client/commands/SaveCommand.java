@@ -3,7 +3,6 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
 
 public class SaveCommand extends Command{
     public SaveCommand() {
@@ -11,7 +10,7 @@ public class SaveCommand extends Command{
     }
 
     @Override
-    public CommandResult action(String[] params) {
+    public CommandResult action(Object[] params) {
         try {
             if (params.length != 0)
                 throw new WrongArgException();
@@ -19,9 +18,6 @@ public class SaveCommand extends Command{
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
         }
 
-//        if (collection.flushToJson())
-//            return new CommandResult(ActionCode.OK);
-//        return sendCommand(new Object[] {});
         return new CommandResult(ActionCode.OK);
     }
 }

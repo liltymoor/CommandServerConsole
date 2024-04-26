@@ -1,6 +1,8 @@
 package org.main.server.commands.managers;
 
+import org.main.server.commands.ClientCommand;
 import org.main.server.commands.Command;
+import org.main.server.commands.properties.Actionable;
 import org.main.server.exceptions.MaxScriptDepthReachedException;
 
 import java.util.ArrayList;
@@ -39,8 +41,8 @@ public class CommandHost {
         return commandMap;
     }
 
-    public void appendHistory(Command command) {
-        commandExecutionHistory.add(command.getName());
+    public void appendHistory(Actionable command) {
+        commandExecutionHistory.add(((Command)command).getName());
     }
 
     public List<String> getHistory() {

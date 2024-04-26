@@ -28,6 +28,7 @@ public class Main {
         cmndHost.addCommand(new InfoCommand(collection));
         cmndHost.addCommand(new ShowCommand(collection));
         cmndHost.addCommand(new AddCommand(collection));
+        cmndHost.addCommand(new CountGreaterThanImpactCommand(collection));
         cmndHost.addCommand(new UpdateCommand(collection));
         cmndHost.addCommand(new RemoveCommand(collection));
         cmndHost.addCommand(new ClearCommand(collection));
@@ -49,6 +50,8 @@ public class Main {
 
         ResponseEmitter emitter = new ResponseEmitter(server);
         ConnectionReceiver receiver = new ConnectionReceiver(invoker, emitter, server);
+
+        invoker.invoke("help");
 
         Thread inputThread = new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {

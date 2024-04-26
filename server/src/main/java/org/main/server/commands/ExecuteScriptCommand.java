@@ -5,7 +5,7 @@ import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
 import org.main.server.exceptions.WrongArgException;
 
-public class ExecuteScriptCommand extends Command {
+public class ExecuteScriptCommand extends ClientCommand {
     CommandHost commandHost;
     public ExecuteScriptCommand(CommandHost host) {
         super("execute_script", "Комадна  для выполнения скрипта");

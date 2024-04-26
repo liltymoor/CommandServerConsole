@@ -1,16 +1,12 @@
 package org.main.server.commands;
 
-import org.main.server.commands.managers.InputRule;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
-import org.main.server.commands.properties.InputCompoundable;
-import org.main.server.exceptions.WrongArgException;
+import org.main.server.commands.properties.HostActionable;
 import org.main.server.fs.CollectionIO;
 
-import java.util.LinkedHashMap;
 
-
-public class CountGreaterThanImpactCommand extends Command {
+public class CountGreaterThanImpactCommand extends ClientCommand implements HostActionable {
     CollectionIO collection;
     public CountGreaterThanImpactCommand(CollectionIO collection) {
         super("count_greater_than_impact", "Вывести количество элементов в коллекции, которые выше указанной величины impact");
@@ -28,5 +24,21 @@ public class CountGreaterThanImpactCommand extends Command {
 
         int result = collection.countImpactSpeedGreater(impactSpeed);
         return new CommandResult(ActionCode.OK, String.valueOf(result));
+    }
+
+    @Override
+    public CommandResult hostAction(String[] params) {
+        Long impactSpeed;
+        try {
+            impactSpeed = Long.parseLong(params[0]);
+        } catch (Exception ex) {
+            return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
+        }
+        return action(new Object[] {impactSpeed});
+    }
+
+    @Override
+    public CommandResult hostAction(Object[] params) {
+        return action(params);
     }
 }

@@ -8,23 +8,17 @@ import org.client.network.Client;
 
 public class HistoryCommand extends ServerCommand {
     CommandHost host;
+
     public HistoryCommand(CommandHost host, Client client) {
         super("history", "Команда для просмотра истории команд", client);
         this.host = host;
     }
 
     @Override
-    public CommandResult action(String[] params) {
-        try {
-            if (params.length != 0)
-                throw new WrongArgException();
-        } catch (WrongArgException ex) {
-            return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
-        }
+    public CommandResult action(Object[] params) {
+        if (params.length != 0)
+            return new CommandResult(ActionCode.BAD_INPUT, "No args must be provided.");
 
-//        for (String command : host.getHistory(5))
-//            System.out.println(command);
-
-        return sendCommand(new Object[] {});
+        return sendCommand(new Object[]{});
     }
 }

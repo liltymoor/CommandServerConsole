@@ -21,6 +21,10 @@ public abstract class Command implements Actionable, Describable {
         return this.description.isEmpty() ? Describable.super.getDescription() : description;
     }
 
+    protected void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getName() {
         return commandName;
     }
