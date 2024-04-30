@@ -5,12 +5,12 @@ import org.client.commands.managers.CommandHost;
 import org.client.commands.managers.CommandInvoker;
 import org.client.commands.managers.InputHandler;
 import org.client.exceptions.CommandNotFoundException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 public class Main {
     public static void main(String[] args) {
-        Client client = null;
-        try {  client = Client.startClient(); }
+        ClientUDP client = null;
+        try {  client = ClientUDP.startClient(); }
         catch (Exception e) { System.out.format("Can't start client: %s\n", e.getMessage()); return; }
         CommandHost cmndHost = new CommandHost();
         CommandInvoker invoker = new CommandInvoker(cmndHost);

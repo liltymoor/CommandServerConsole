@@ -4,20 +4,16 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
-import org.shared.model.entity.Car;
 import org.shared.model.entity.HumanBeing;
-import org.shared.model.entity.params.Coordinates;
-import org.shared.model.entity.params.Mood;
 import org.shared.model.input.buildrule.Builder;
 import org.shared.model.input.buildrule.HumanBeingBuilder;
-import org.shared.model.weapon.WeaponType;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddCommand extends ServerCommand implements InputCompoundable {
-    public AddCommand(Client client) {
+    public AddCommand(ClientUDP client) {
         super("add", "Команда для добавления сущности в коллекцию HumanBeing.", client);
     }
 

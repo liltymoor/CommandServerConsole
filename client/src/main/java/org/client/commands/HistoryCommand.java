@@ -3,13 +3,12 @@ package org.client.commands;
 import org.client.commands.managers.CommandHost;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 public class HistoryCommand extends ServerCommand {
     CommandHost host;
 
-    public HistoryCommand(CommandHost host, Client client) {
+    public HistoryCommand(CommandHost host, ClientUDP client) {
         super("history", "Команда для просмотра истории команд", client);
         this.host = host;
     }

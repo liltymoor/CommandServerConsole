@@ -2,12 +2,11 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 
 public class PrintUniqueImpactCommand extends ServerCommand {
-    public PrintUniqueImpactCommand(Client client) {
+    public PrintUniqueImpactCommand(ClientUDP client) {
         super("print_unique_impact", "Команда для просмотра уникальных значений скорости", client);
     }
 

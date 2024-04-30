@@ -2,11 +2,10 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 public class InfoCommand extends ServerCommand {
-    public InfoCommand(Client client) {
+    public InfoCommand(ClientUDP client) {
         super("info", "Команда для вывода в терминал информации о коллекции.", client);
     }
 

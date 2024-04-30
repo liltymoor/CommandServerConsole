@@ -1,26 +1,19 @@
 package org.client.commands;
 
-import org.client.commands.managers.InputRule;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.WrongArgException;
-import org.client.models.HumanBeingFormed;
-import org.client.network.Client;
-import org.shared.model.entity.Car;
+import org.client.network.ClientUDP;
 import org.shared.model.entity.HumanBeing;
-import org.shared.model.entity.params.Coordinates;
-import org.shared.model.entity.params.Mood;
 import org.shared.model.input.buildrule.Builder;
 import org.shared.model.input.buildrule.HumanBeingBuilder;
-import org.shared.model.weapon.WeaponType;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class RemoveLowerCommand extends ServerCommand implements InputCompoundable {
-    public RemoveLowerCommand(Client client) {
+    public RemoveLowerCommand(ClientUDP client) {
         super("remove_lower", "Команда удаляет все элементы меньше заданного", client);
     }
 

@@ -3,7 +3,7 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 import org.client.network.NetworkByteWrapper;
 import org.shared.network.Response;
 
@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
 public class ExitCommand extends ServerCommand {
     SaveCommand saveCommand;
     // deprecated
-    public ExitCommand(SaveCommand saveCommand, Client client) {
+    public ExitCommand(SaveCommand saveCommand, ClientUDP client) {
         super("exit", "Команда для выхода из программы", client);
         this.saveCommand = saveCommand;
     }

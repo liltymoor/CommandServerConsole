@@ -2,12 +2,11 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 
 public class ClearCommand extends ServerCommand {
-    public ClearCommand(Client client) {
+    public ClearCommand(ClientUDP client) {
         super("clear", "Команда для полной очистки коллекции.", client);
     }
 

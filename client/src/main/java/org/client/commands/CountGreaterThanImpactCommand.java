@@ -2,11 +2,10 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 
 public class CountGreaterThanImpactCommand extends ServerCommand {
-    public CountGreaterThanImpactCommand(Client client) {
+    public CountGreaterThanImpactCommand(ClientUDP client) {
         super("count_greater_than_impact", "Вывести количество элементов в коллекции, которые выше указанной величины impact", client);
     }
 

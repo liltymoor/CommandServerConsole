@@ -2,8 +2,7 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
-import org.client.network.Client;
+import org.client.network.ClientUDP;
 import org.shared.model.weapon.WeaponType;
 
 import java.util.Arrays;
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class RemoveAllByWeaponCommand extends ServerCommand {
     private final String possible_values = Arrays.stream(WeaponType.values()).map(type-> type.name()).collect(Collectors.joining(", "));
-    public RemoveAllByWeaponCommand(Client client) {
+    public RemoveAllByWeaponCommand(ClientUDP client) {
         super("remove_all_by_weapon", "Команда для удаления всех записей с указанным оружием (%s)", client);
         setDescription(getDescription().formatted(possible_values));
     }

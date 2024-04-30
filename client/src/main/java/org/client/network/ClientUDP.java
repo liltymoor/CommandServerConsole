@@ -1,7 +1,7 @@
 package org.client.network;
 
 import org.client.exceptions.ServerIsNullException;
-import org.shared.network.Request;
+import org.shared.network.ChunkInfo;
 import org.shared.network.Response;
 
 import java.io.IOException;
@@ -9,20 +9,22 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
-public class Client {
+public class ClientUDP {
     final private DatagramChannel channel;
+    final private ChunkCollector collector;
     final private InetSocketAddress serverAddress = new InetSocketAddress("localhost", 8000);
 
-    private Client(DatagramChannel channel) {
+    private ClientUDP(DatagramChannel channel) {
         this.channel = channel;
+        collector = new ChunkCollector();
     }
 
-    public static Client startClient() throws IOException {
+    public static ClientUDP startClient() throws IOException {
         System.out.printf("Going to udp him: %s:%s%n", "172.18.0.2", 8000);
         // Получаем канал свободный канал, кста он возьмет случайный порт
         DatagramChannel channel = DatagramChannel.open();
         channel.configureBlocking(true);
-        return new Client(channel);
+        return new ClientUDP(channel);
     }
 
     public void send(ByteBuffer buffer) {
@@ -46,14 +48,26 @@ public class Client {
         return null;
     }
 
-    //TODO Переделать под класс Response
     private Response receiveResponse() throws IOException, ServerIsNullException {
-        ByteBuffer receiveBuffer = ByteBuffer.allocate(Response.RESPONSE_SIZE);
+        ByteBuffer buffer = ByteBuffer.allocate(Response.RESPONSE_SIZE);
         System.out.println("Ждем ответ от сервера...");
-        InetSocketAddress serverAnswer = (InetSocketAddress) channel.receive(receiveBuffer);
+        InetSocketAddress serverAnswer = (InetSocketAddress) channel.receive(buffer);
 
         if (serverAnswer == null) throw new ServerIsNullException();
-        receiveBuffer.flip();
-        return NetworkByteWrapper.unwrapResponse(receiveBuffer);
+        buffer.flip();
+
+        ChunkInfo info = NetworkByteWrapper.unwrapChunkInfo(buffer);
+        collector.prepare(info);
+        buffer.clear();
+
+        while (!collector.isReady()) {
+            channel.receive(buffer);
+            buffer.flip();
+
+            collector.concatChunk(buffer);
+
+            buffer.clear();
+        }
+        return NetworkByteWrapper.unwrapResponse(collector.getData());
     }
 }
