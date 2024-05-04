@@ -193,17 +193,17 @@ public class HumanBeingWithIdBuilder extends Builder<HumanBeing> {
 
     @Override
     public HumanBeing build(Scanner input) throws IOException {
-        Integer id = getId(input, new FieldStructure("id", "id of Human object | example: 1").setDefault("1"));
+        Integer id = getId(input, new FieldStructure("id", "id of Human object | example: 1").setDefault("1").notNullable());
         HumanBeing result = new HumanBeing(
-                getName(input, new FieldStructure("name", "name of Human object | example: Vanya").setDefault("Vanya")),
-                getCoordinates(input, new FieldStructure("coordinates", "coordinates object(x y), y > -190 | example: 10 3").setDefault("10 3")),
-                getRealHero(input, new FieldStructure("realHero", "boolean | example: true").setDefault("true")),
-                getHasToothpick(input, new FieldStructure("hasToothpick", "boolean | example: true").setDefault("true")),
-                getImpactSpeed(input, new FieldStructure("impactSpeed", "example: 1000").setDefault("1000")),
-                getMinutesOfWaiting(input, new FieldStructure("minutesOfWaiting", " example: 3").setDefault("3")),
-                getWeapongType(input, new FieldStructure("weaponType", "one of: AXE, SHOTGUN, RIFLE, MACHINE GUN").setDefault("AXE")),
-                getMood(input, new FieldStructure("mood", "one of: SADNESS, LONGING, GLOOM, APATHY, RAGE").setDefault("SADNESS")),
-                getCar(input, new FieldStructure("car", "example: BMW").setDefault("BMW"))
+                getName(input, new FieldStructure("name", "name of Human object | example: Vanya").setDefault("Vanya").notNullable()),
+                getCoordinates(input, new FieldStructure("coordinates", "coordinates object(x y), y > -190 | example: 10 3").setDefault("10 3").notNullable()),
+                getRealHero(input, new FieldStructure("realHero", "boolean | example: true").setDefault("true").notNullable()),
+                getHasToothpick(input, new FieldStructure("hasToothpick", "boolean | example: true").setDefault("true").notNullable()),
+                getImpactSpeed(input, new FieldStructure("impactSpeed", "example: 1000").setDefault("1000").notNullable()),
+                getMinutesOfWaiting(input, new FieldStructure("minutesOfWaiting", " example: 3").setDefault("3").notNullable()),
+                getWeapongType(input, new FieldStructure("weaponType", "one of: AXE, SHOTGUN, RIFLE, MACHINE GUN").setDefault("AXE").notNullable()),
+                getMood(input, new FieldStructure("mood", "one of: SADNESS, LONGING, GLOOM, APATHY, RAGE").setDefault("SADNESS").notNullable()),
+                getCar(input, new FieldStructure("car", "example: BMW").setDefault("BMW").notNullable())
         );
         result.setId(id);
         result.setZonedDT(ZonedDateTime.now());

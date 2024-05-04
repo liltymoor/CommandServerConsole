@@ -6,7 +6,7 @@ import org.main.server.commands.properties.HostActionable;
 import org.main.server.fs.CollectionIO;
 
 
-public class PrintUniqueImpactCommand extends ClientCommand implements HostActionable {
+public class PrintUniqueImpactCommand extends UserClientCommand implements HostActionable {
     CollectionIO collection;
     public PrintUniqueImpactCommand(CollectionIO collection) {
         super("print_unique_impact", "Команда для просмотра уникальных значений скорости");
@@ -14,7 +14,7 @@ public class PrintUniqueImpactCommand extends ClientCommand implements HostActio
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         StringBuilder sb = new StringBuilder();
         for (Long impact : collection.getUniqueImpact())
             sb.append(impact).append(" ");
@@ -24,11 +24,11 @@ public class PrintUniqueImpactCommand extends ClientCommand implements HostActio
 
     @Override
     public CommandResult hostAction(String[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }

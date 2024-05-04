@@ -40,6 +40,8 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private WeaponType weaponType; //Поле не может быть null
     private Mood mood; //Поле не может быть null
     private Car modelCar; //Поле не может быть null
+
+    private String entityOwner;
     public String getName() {
         return name;
     }
@@ -88,7 +90,6 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         return zonedDT;
     }
 
-
     public HumanBeing(
             String name,
             Coordinates coords,
@@ -115,14 +116,14 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     public HumanBeing(
             String name,
             Coordinates coords,
-            ZonedDateTime zonedDT,
             Boolean realHero,
             Boolean hasToothpick,
             Long impactSpeed,
             Double minutesOfWaiting,
             WeaponType weaponType,
             Mood mood,
-            Car car
+            Car car,
+            String entityOwner
     ) {
         id = -1;
         setName(name);
@@ -134,6 +135,33 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         this.weaponType = weaponType;
         this.mood = mood;
         this.modelCar = car;
+        this.entityOwner = entityOwner;
+    }
+
+    public HumanBeing(
+            String name,
+            Coordinates coords,
+            ZonedDateTime zonedDT,
+            Boolean realHero,
+            Boolean hasToothpick,
+            Long impactSpeed,
+            Double minutesOfWaiting,
+            WeaponType weaponType,
+            Mood mood,
+            Car car,
+            String entityOwner
+    ) {
+        id = -1;
+        setName(name);
+        this.coords = coords;
+        this.realHero = realHero;
+        this.hasToothpick = hasToothpick;
+        this.impactSpeed = impactSpeed;
+        this.minutesOfWaiting = minutesOfWaiting;
+        this.weaponType = weaponType;
+        this.mood = mood;
+        this.modelCar = car;
+        this.entityOwner = entityOwner;
     }
 
     public void setId(int id) {
@@ -174,6 +202,13 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
 
     public Coordinates getCoords() {
         return coords;
+    }
+    public String getEntityOwner() {
+        return entityOwner;
+    }
+
+    public void setEntityOwner(String entityOwner) {
+        this.entityOwner = entityOwner;
     }
 
     @Override

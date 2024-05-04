@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class CommandResult {
     ActionCode code;
+
     String message = "No message were provided.";
     public CommandResult(ActionCode code) {
         String fetchMessage = getCodesDescription().get(code.name());
@@ -32,4 +33,5 @@ public class CommandResult {
     public ActionCode getCode() {
         return code;
     }
+    public String getMessage() { return message; }
 }

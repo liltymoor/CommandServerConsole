@@ -6,7 +6,7 @@ import org.main.server.commands.properties.HostActionable;
 import org.main.server.exceptions.WrongArgException;
 import org.main.server.fs.CollectionIO;
 
-public class RemoveCommand extends ClientCommand implements HostActionable {
+public class RemoveCommand extends UserClientCommand implements HostActionable {
     CollectionIO collection;
     public RemoveCommand(CollectionIO collection) {
         super("remove", "Команда удаляет элемент из коллекци по ID.");
@@ -14,9 +14,9 @@ public class RemoveCommand extends ClientCommand implements HostActionable {
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         int idToRemove = (int) params[0];
-        if(collection.removeFromCollection(idToRemove))
+        if(collection.removeFromCollection(idToRemove, username))
             return new CommandResult(ActionCode.OK);
 
         return new CommandResult(ActionCode.BAD_INPUT, "Entity wasn't found");
@@ -32,11 +32,11 @@ public class RemoveCommand extends ClientCommand implements HostActionable {
         } catch (Exception ex) {
             return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
         }
-        return action(new Object[]{id});
+        return action(new Object[]{id}, "admin");
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }

@@ -24,9 +24,10 @@ public abstract class Builder<T> {
     }
 
     public static String checkNullable(String field, FieldStructure rule) {
-        if (field.isEmpty() && !rule.isNullable())
+        if (field.isEmpty() && rule.isNotNullable())
             field = rule.getDefaultValue();
-        else return null; // Случай если строка "" и при этом можно иметь null
+        else if (field.isEmpty() && !rule.isNotNullable())
+            return null; // Случай если строка "" и при этом можно иметь null
 
         return field;
     }

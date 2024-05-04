@@ -26,7 +26,7 @@ public class ExitCommand extends ServerCommand {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
         }
 
-        ByteBuffer data = NetworkByteWrapper.wrapRequest(saveCommand, new Object[]{});
+        ByteBuffer data = NetworkByteWrapper.wrapRequest(saveCommand, client.getToken(), new Object[]{});
         Response response = client.sendAndGetResponse(data);
         System.out.println("Exiting...");
         System.exit(0);

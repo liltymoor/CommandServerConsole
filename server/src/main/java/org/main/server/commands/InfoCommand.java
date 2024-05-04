@@ -5,7 +5,7 @@ import org.main.server.commands.properties.CommandResult;
 import org.main.server.commands.properties.HostActionable;
 import org.main.server.fs.CollectionIO;
 
-public class InfoCommand extends ClientCommand implements HostActionable {
+public class InfoCommand extends UserClientCommand implements HostActionable {
     CollectionIO collectionIO;
     public InfoCommand(CollectionIO collection) {
         super("info", "Команда для вывода в терминал информации о коллекции.");
@@ -13,18 +13,18 @@ public class InfoCommand extends ClientCommand implements HostActionable {
     }
 
     @Override
-    public CommandResult action(Object[] params) {
-        String result = String.format("Размер: %d, Тип: LinkedHashSet, Название коллекции: %s%n", collectionIO.size(), collectionIO.getCollectionName());
+    public CommandResult action(Object[] params, String username) {
+        String result = String.format("Размер: %d, Тип: LinkedHashSet, Название коллекции: PostgreSQL%n", collectionIO.size());
         return new CommandResult(ActionCode.OK, result);
     }
 
     @Override
     public CommandResult hostAction(String[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }

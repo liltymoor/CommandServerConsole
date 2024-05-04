@@ -14,8 +14,8 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddCommand extends ClientCommand implements InputCompoundable, HostActionable {
-    private CollectionIO collection;
+public class AddCommand extends UserClientCommand implements InputCompoundable, HostActionable {
+    private final CollectionIO collection;
 
     public AddCommand(CollectionIO collection) {
         super("add", "Команда для добавления сущности в коллекцию HumanBeing.");
@@ -23,19 +23,22 @@ public class AddCommand extends ClientCommand implements InputCompoundable, Host
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         HumanBeing being;
         try {
             being = (HumanBeing) params[0];
+            being.setEntityOwner(username);
             being.setZonedDT(ZonedDateTime.now());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
         }
 
-        collection.addToCollection(being);
+        collection.addToCollection(being, username);
         return new CommandResult(ActionCode.OK);
     }
+
+
 
     @Override
     public List<Builder<?>> getArgCompound() {
@@ -46,11 +49,11 @@ public class AddCommand extends ClientCommand implements InputCompoundable, Host
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 
     @Override
     public CommandResult hostAction(String[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }

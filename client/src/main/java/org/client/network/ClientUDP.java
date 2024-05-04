@@ -12,6 +12,7 @@ import java.nio.channels.DatagramChannel;
 public class ClientUDP {
     final private DatagramChannel channel;
     final private ChunkCollector collector;
+    private String token = "Not stated";
     final private InetSocketAddress serverAddress = new InetSocketAddress("localhost", 8000);
 
     private ClientUDP(DatagramChannel channel) {
@@ -69,5 +70,12 @@ public class ClientUDP {
             buffer.clear();
         }
         return NetworkByteWrapper.unwrapResponse(collector.getData());
+    }
+
+    public String getToken() {
+        return token;
+    }
+    public void setToken(String token) {
+        this.token = token;
     }
 }

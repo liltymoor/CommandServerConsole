@@ -3,13 +3,11 @@ package org.main.server.commands.managers;
 import org.main.server.commands.ClientCommand;
 import org.main.server.commands.Command;
 import org.main.server.commands.HostCommand;
-import org.main.server.commands.properties.ActionCode;
-import org.main.server.commands.properties.ClientActionable;
-import org.main.server.commands.properties.CommandResult;
-import org.main.server.commands.properties.HostActionable;
+import org.main.server.commands.properties.*;
 import org.main.server.exceptions.CommandNotFoundException;
 import org.main.server.exceptions.NotExecutableByClient;
 import org.main.server.exceptions.NotExecutableByHostException;
+import org.main.server.exceptions.UnauthorizedException;
 
 /**
  * @author lil_timmie
@@ -17,6 +15,7 @@ import org.main.server.exceptions.NotExecutableByHostException;
  */
 public class CommandInvoker {
     CommandHost host;
+
     public CommandInvoker(CommandHost host) {
         this.host = host;
     }
@@ -28,9 +27,10 @@ public class CommandInvoker {
         return command;
     }
 
-    public CommandResult invoke(String commandToInvoke , Object[] params) {
+    public CommandResult invoke(String commandToInvoke, Object[] params, String username) {
         if (commandToInvoke == null)
             return new CommandResult(ActionCode.ERROR, new CommandNotFoundException().getMessage());
+
         ClientActionable command;
         try {
             command = (ClientActionable) fetchCommand(commandToInvoke);
@@ -40,10 +40,13 @@ public class CommandInvoker {
             return new CommandResult(ActionCode.ERROR, ex.getMessage());
         }
         host.appendHistory(command);
+        if (username != null)
+            return ((UserClientActionable) command).action(params, username);
+
         return command.action(params);
     }
 
-    public CommandResult invoke(String commandToInvoke) throws CommandNotFoundException {
+    public CommandResult invoke(String commandToInvoke, String username) throws CommandNotFoundException {
         if (commandToInvoke == null)
             return new CommandResult(ActionCode.ERROR, new CommandNotFoundException().getMessage());
         ClientActionable command;
@@ -53,30 +56,41 @@ public class CommandInvoker {
             return new CommandResult(ActionCode.ERROR, new NotExecutableByClient().getMessage());
         }
         host.appendHistory(command);
-        return command.action(new Object[] {});
 
+        if (username != null)
+            return ((UserClientActionable) command).action(new Object[]{}, username);
+        return command.action(new Object[]{});
     }
 
-    public CommandResult invoke(ClientActionable commandToInvoke , Object[] params) throws CommandNotFoundException {
-        if (commandToInvoke == null)
-            return new CommandResult(ActionCode.ERROR, new CommandNotFoundException().getMessage());
-        host.appendHistory(commandToInvoke);
-        return commandToInvoke.action(params);
+    public CommandResult invokeHost(String commandToInvoke) {
+        try {
+            return invokeHost((HostActionable) fetchCommand(commandToInvoke));
+        } catch (ClassCastException ex) {
+            return new CommandResult(ActionCode.ERROR, new NotExecutableByHostException().getMessage());
+        }
     }
 
-    public CommandResult invoke(ClientActionable commandToInvoke) {
-        if (commandToInvoke == null)
-            return new CommandResult(ActionCode.ERROR, new CommandNotFoundException().getMessage());
-        host.appendHistory(commandToInvoke);
-        return commandToInvoke.action(new Object[] {});
+    public CommandResult invokeHost(String commandToInvoke, String[] params) {
+        try {
+            return invokeHost((HostActionable) fetchCommand(commandToInvoke), params);
+        } catch (ClassCastException ex) {
+            return new CommandResult(ActionCode.ERROR, new NotExecutableByHostException().getMessage());
+        }
+    }
 
+    public CommandResult invokeHost(String commandToInvoke, Object[] params) {
+        try {
+            return invokeHost((HostActionable) fetchCommand(commandToInvoke), params);
+        } catch (ClassCastException ex) {
+            return new CommandResult(ActionCode.ERROR, new NotExecutableByHostException().getMessage());
+        }
     }
 
     public CommandResult invokeHost(HostActionable commandToInvoke) throws NotExecutableByHostException {
         if (commandToInvoke == null)
             return new CommandResult(ActionCode.ERROR, new CommandNotFoundException().getMessage());
         host.appendHistory(commandToInvoke);
-        return commandToInvoke.hostAction(new String[] {});
+        return commandToInvoke.hostAction(new String[]{});
     }
 
     public CommandResult invokeHost(HostActionable commandToInvoke, String[] params) throws NotExecutableByHostException {

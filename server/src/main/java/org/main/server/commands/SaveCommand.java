@@ -17,8 +17,6 @@ public class SaveCommand extends HostCommand{
         if (params.length > 0)
             throw new WrongArgException();
 
-        if (collection.flushToJson())
-            return new CommandResult(ActionCode.OK);
         return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong while saving collection.");
     }
 
@@ -32,8 +30,6 @@ public class SaveCommand extends HostCommand{
             return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
         }
 
-        if (collection.flushToJson())
-            return new CommandResult(ActionCode.OK);
         return new CommandResult(ActionCode.UNKNOWN_ERROR, "Something went wrong while saving collection.");
     }
 }

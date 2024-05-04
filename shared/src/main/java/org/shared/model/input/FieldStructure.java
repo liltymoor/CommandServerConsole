@@ -3,7 +3,7 @@ package org.shared.model.input;
 public class FieldStructure {
     private String name = "No name";
     private String description = "No description";
-    private boolean nullable = false;
+    private boolean notNullable = false;
 
     private String defaultValue = null;
 
@@ -24,9 +24,9 @@ public class FieldStructure {
     public String getName() {
         return name;
     }
-    public boolean isNullable() { return nullable; }
+    public boolean isNotNullable() { return notNullable; }
 
-    public FieldStructure notNullable() { nullable = true; return this; }
+    public FieldStructure notNullable() { notNullable = true; return this; }
 
     @Override
     public String toString() {

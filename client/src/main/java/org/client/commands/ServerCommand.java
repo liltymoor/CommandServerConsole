@@ -22,7 +22,7 @@ public abstract class ServerCommand extends Command {
     }
 
     protected CommandResult sendCommand(Object[] args) {
-        ByteBuffer data = NetworkByteWrapper.wrapRequest(this, args);
+        ByteBuffer data = NetworkByteWrapper.wrapRequest(this, client.getToken(), args);
         Response response = client.sendAndGetResponse(data);
         System.out.println("[CLIENT] Server response received\n");
         return new CommandResult(ActionCode.valueOf(response.getResultCode()), response.getResultMessage());

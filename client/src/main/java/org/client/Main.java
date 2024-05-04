@@ -31,6 +31,7 @@ public class Main {
         cmndHost.addCommand(new HistoryCommand(cmndHost, client));
         cmndHost.addCommand(new RemoveAllByWeaponCommand(client));
         cmndHost.addCommand(new PrintUniqueImpactCommand(client));
+        cmndHost.addCommand(new AuthCommand(client));
 
         invoker.invoke(cmndHost.getCommands().get("help"));
         while (true) {

@@ -16,7 +16,7 @@ import java.util.List;
 
 // TODO ЭТУ И ОСТАЛЬНЫЕ КОМАНДЫ КЛИЕНТА ФИКСАНУТЬ И ПРОВЕРИТЬ, ДАЛЬШЕ ОТПРАВКА/ПОЛУЧЕНИЕ ОТВЕТОВ ЗАПРОСОВ ЧАНКАМИ
 
-public class AddIfMinCommand extends ClientCommand implements InputCompoundable, HostActionable {
+public class AddIfMinCommand extends UserClientCommand implements InputCompoundable, HostActionable {
     CollectionIO collection;
     public AddIfMinCommand(CollectionIO collection) {
         super("add_if_min", "Команда для добавления элемента в коллекцию, если элемент минимальный");
@@ -24,16 +24,17 @@ public class AddIfMinCommand extends ClientCommand implements InputCompoundable,
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         HumanBeing being;
         try {
             being = (HumanBeing) params[0];
+            being.setEntityOwner(username);
             being.setZonedDT(ZonedDateTime.now());
         }  catch (Exception ex) {
             return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
         }
         if (collection.isMinimal(being)) {
-            collection.addToCollection(being);
+            collection.addToCollection(being, username);
             return new CommandResult(ActionCode.OK);
         }
         return new CommandResult(ActionCode.NOT_MINIMAL);
@@ -48,12 +49,12 @@ public class AddIfMinCommand extends ClientCommand implements InputCompoundable,
 
     @Override
     public CommandResult hostAction(String[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }
 

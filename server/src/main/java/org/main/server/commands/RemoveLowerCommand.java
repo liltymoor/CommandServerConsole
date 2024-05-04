@@ -14,7 +14,7 @@ import org.shared.model.input.buildrule.HumanBeingWithIdBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoveLowerCommand extends ClientCommand implements InputCompoundable {
+public class RemoveLowerCommand extends UserClientCommand implements InputCompoundable {
     CollectionIO collection;
     public RemoveLowerCommand(CollectionIO collection) {
         super("remove_lower", "Команда удаляет все элементы меньше заданного");
@@ -22,7 +22,7 @@ public class RemoveLowerCommand extends ClientCommand implements InputCompoundab
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         HumanBeing being;
         try {
             being = (HumanBeing) params[0];
@@ -32,7 +32,7 @@ public class RemoveLowerCommand extends ClientCommand implements InputCompoundab
 
         collection.forEach(humanBeing -> {
             if (humanBeing.compareTo(being) < 0)
-                collection.removeFromCollection(humanBeing);
+                collection.removeFromCollection(humanBeing, username);
         });
 
         return new CommandResult(ActionCode.OK);

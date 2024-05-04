@@ -6,7 +6,7 @@ import org.main.server.commands.properties.HostActionable;
 import org.main.server.fs.CollectionIO;
 
 
-public class CountGreaterThanImpactCommand extends ClientCommand implements HostActionable {
+public class CountGreaterThanImpactCommand extends UserClientCommand implements HostActionable {
     CollectionIO collection;
     public CountGreaterThanImpactCommand(CollectionIO collection) {
         super("count_greater_than_impact", "Вывести количество элементов в коллекции, которые выше указанной величины impact");
@@ -14,7 +14,7 @@ public class CountGreaterThanImpactCommand extends ClientCommand implements Host
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         Long impactSpeed;
         try {
             impactSpeed = (Long)params[0];
@@ -39,6 +39,6 @@ public class CountGreaterThanImpactCommand extends ClientCommand implements Host
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }

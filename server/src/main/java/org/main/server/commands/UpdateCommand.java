@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class UpdateCommand extends ClientCommand implements InputCompoundable, HostActionable {
+public class UpdateCommand extends UserClientCommand implements InputCompoundable, HostActionable {
     CollectionIO collection;
     public UpdateCommand(CollectionIO collection) {
         super("update", "Команда для обновления сущности в коллекции.");
@@ -23,7 +23,7 @@ public class UpdateCommand extends ClientCommand implements InputCompoundable, H
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
 
         HumanBeing being;
         int id;
@@ -35,19 +35,20 @@ public class UpdateCommand extends ClientCommand implements InputCompoundable, H
         }
 
         being.setId(id);
-        if (collection.editCollectionEntity(being))
+        being.setEntityOwner(username);
+        if (collection.editCollectionEntity(being, username))
             return new CommandResult(ActionCode.OK);
         return new CommandResult(ActionCode.BAD_INPUT, "Entity wasn't found");
     }
 
     @Override
     public CommandResult hostAction(String[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 
     @Override

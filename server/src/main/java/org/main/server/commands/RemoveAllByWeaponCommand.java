@@ -7,7 +7,7 @@ import org.main.server.exceptions.WrongArgException;
 import org.main.server.fs.CollectionIO;
 import org.shared.model.weapon.WeaponType;
 
-public class RemoveAllByWeaponCommand extends ClientCommand implements HostActionable {
+public class RemoveAllByWeaponCommand extends UserClientCommand implements HostActionable {
     CollectionIO collection;
 
     public RemoveAllByWeaponCommand(CollectionIO collection) {
@@ -16,7 +16,7 @@ public class RemoveAllByWeaponCommand extends ClientCommand implements HostActio
     }
 
     @Override
-    public CommandResult action(Object[] params) {
+    public CommandResult action(Object[] params, String username) {
         WeaponType weaponType;
         try {
             weaponType = (WeaponType) params[0];
@@ -24,7 +24,7 @@ public class RemoveAllByWeaponCommand extends ClientCommand implements HostActio
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
 
-        collection.removeByWeapon(weaponType);
+        collection.removeByWeapon(weaponType, username);
 
         return new CommandResult(ActionCode.OK);
     }
@@ -39,11 +39,11 @@ public class RemoveAllByWeaponCommand extends ClientCommand implements HostActio
         } catch (Exception ex) {
             return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));
         }
-        return action(new Object[]{weaponType});
+        return action(new Object[]{weaponType}, "admin");
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
-        return action(params);
+        return action(params, "admin");
     }
 }

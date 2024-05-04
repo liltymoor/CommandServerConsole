@@ -10,8 +10,8 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class NetworkByteWrapper implements Serializable{
-    public static ByteBuffer wrapRequest(Command command, Object[] args) {
-        Request request = new Request(command.getName(), args);
+    public static ByteBuffer wrapRequest(Command command, String token, Object[] args) {
+        Request request = new Request(command.getName(), token, args);
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(bos)) {
             oos.writeObject(request);
