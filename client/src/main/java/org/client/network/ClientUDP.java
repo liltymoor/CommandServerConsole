@@ -21,7 +21,7 @@ public class ClientUDP {
     }
 
     public static ClientUDP startClient() throws IOException {
-        System.out.printf("Going to udp him: %s:%s%n", "172.18.0.2", 8000);
+        // System.out.printf("Going to udp him: %s:%s%n", "172.18.0.2", 8000);
         // Получаем канал свободный канал, кста он возьмет случайный порт
         DatagramChannel channel = DatagramChannel.open();
         channel.configureBlocking(true);
@@ -31,9 +31,9 @@ public class ClientUDP {
     public void send(ByteBuffer buffer) {
         try {
             channel.send(buffer, serverAddress);
-            System.out.println("Запрос успешно отправлен");
+            System.out.println("Request successfully sent");
         } catch (IOException e) {
-            System.out.format("Ошибка отправки: %s\n", e.getMessage());
+            System.out.format("Error sending request: %s\n", e.getMessage());
         }
 
     }
@@ -51,7 +51,7 @@ public class ClientUDP {
 
     private Response receiveResponse() throws IOException, ServerIsNullException {
         ByteBuffer buffer = ByteBuffer.allocate(Response.RESPONSE_SIZE);
-        System.out.println("Ждем ответ от сервера...");
+        System.out.println("Waiting for server answer...");
         InetSocketAddress serverAnswer = (InetSocketAddress) channel.receive(buffer);
 
         if (serverAnswer == null) throw new ServerIsNullException();
