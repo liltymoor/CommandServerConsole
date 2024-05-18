@@ -1,0 +1,29 @@
+/* Общие стили для всех кнопок */
+.button {
+    -fx-background-color: #007bff;  /* Синий фон */
+    -fx-text-fill: #ffffff;  /* Белый цвет текста */
+    -fx-font-size: 14px;  /* Размер шрифта */
+    -fx-padding: 10px 20px;  /* Внутренние отступы */
+    -fx-background-radius: 5px;  /* Скругленные углы */
+    -fx-border-color: #0056b3;  /* Цвет границы */
+    -fx-border-radius: 5px;  /* Скругленные углы границы */
+}
+
+/* Стили для кнопок при наведении */
+.button:hover {
+    -fx-background-color: #0056b3;  /* Темно-синий фон при наведении */
+}
+
+/* Стили для кнопок при нажатии */
+.button:pressed {
+    -fx-background-color: #004494;  /* Ещё более тёмный синий фон при нажатии */
+}
+
+/* Дополнительные стили для конкретных кнопок по идентификатору */
+#loginButton {
+    -fx-background-color: #28a745;  /* Зелёный фон */
+}
+
+#registerButton {
+    -fx-background-color: #17a2b8;  /* Голубой фон */
+}

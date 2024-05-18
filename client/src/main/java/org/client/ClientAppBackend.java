@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 public class ClientAppBackend {
     private Logger backendLogger = Logger.getLogger("backendLogger");
-
     private CommandHost commandHost;
     private CommandInvoker commandInvoker;
     private ClientUDP client;
