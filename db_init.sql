@@ -33,6 +33,7 @@ CREATE TABLE humanbeing (
                             realhero boolean NOT NULL,
                             hastoothpick boolean NOT NULL,
                             impactspeed bigint NOT NULL,
+                            minutesofwaiting double precision NOT NULL,
                             human_weapon weapontype NOT NULL,
                             human_mood mood NOT NULL,
                             carname varchar(16) NOT NULL,
