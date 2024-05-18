@@ -29,6 +29,7 @@ public class ClientApp extends Application {
         Scene mainScene = new Scene(mainRoot);
         Stage mainStage = new Stage();
         mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
         mainStage.setTitle("Программа");
 
         // auth
@@ -37,6 +38,7 @@ public class ClientApp extends Application {
         AnchorPane root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.setTitle("Авторизация");
 
 

@@ -5,12 +5,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.client.ClientAppBackend;
 import org.shared.network.User;
 
 public class AuthorizationController {
+    @FXML
+    private AnchorPane pane;
     @FXML
     private Label registerLabel;
     @FXML
@@ -104,8 +107,9 @@ public class AuthorizationController {
             errorLabel.setText("Пароли не совпадают");
             return;
         }
-//        User userInfo = new User(username, password);
-//        backend.invokeCommand("auth", userInfo);
+
+        // backend
+
         Stage stage = (Stage) authVBox.getScene().getWindow();
         stage.close();
         mainStage.show();
@@ -120,5 +124,8 @@ public class AuthorizationController {
         }
         // backend
 
+        Stage stage = (Stage) authVBox.getScene().getWindow();
+        stage.close();
+        mainStage.show();
     }
 }
