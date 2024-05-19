@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.stage.Stage?>
+
+<Stage title="%title">
+    <scene>
+        <Scene>
+            <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="448.0" prefWidth="559.0"
+                        stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.14-internal"
+                        xmlns:fx="http://javafx.com/fxml/1">
+                <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="62.0" prefHeight="51.0"
+                       prefWidth="559.0" text="%auth_main_label" textAlignment="CENTER">
+                    <font>
+                        <Font size="35.0"/>
+                    </font>
+                </Label>
+                <VBox fx:id="authVBox" alignment="TOP_CENTER" layoutX="175.0" layoutY="129.0" prefHeight="200.0"
+                      prefWidth="209.0" visible="false">
+                    <TextField fx:id="usernameField" promptText="%username">
+                        <VBox.margin>
+                            <Insets left="10.0" right="10.0" top="30.0"/>
+                        </VBox.margin>
+                    </TextField>
+                    <PasswordField fx:id="passwordField" promptText="%password">
+                        <VBox.margin>
+                            <Insets left="10.0" right="10.0" top="10.0"/>
+                        </VBox.margin>
+                    </PasswordField>
+                    <Button fx:id="authButton" mnemonicParsing="false" onAction="#auth" prefHeight="26.0"
+                            prefWidth="87.0" text="%login_button">
+                        <VBox.margin>
+                            <Insets top="20.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Label fx:id="registerLabel" onMouseClicked="#showRegisterMenu"
+                           onMouseEntered="#underlineRegisterLabel" onMouseExited="#undoUnderlineRegisterLabel"
+                           text="%switch_auth2reg" textFill="#0000005d">
+                        <VBox.margin>
+                            <Insets top="20.0"/>
+                        </VBox.margin>
+                        <cursor>
+                            <Cursor fx:constant="OPEN_HAND"/>
+                        </cursor>
+                    </Label>
+                </VBox>
+                <VBox fx:id="regVBox" alignment="TOP_CENTER" layoutX="175.0" layoutY="129.0" prefHeight="232.0"
+                      prefWidth="209.0">
+                    <children>
+                        <TextField fx:id="registerUsernameField" promptText="%username">
+                            <VBox.margin>
+                                <Insets left="10.0" right="10.0" top="30.0"/>
+                            </VBox.margin>
+                        </TextField>
+                        <PasswordField fx:id="registerPasswordField1" promptText="%password">
+                            <VBox.margin>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </PasswordField>
+                        <PasswordField fx:id="registerPasswordField2" promptText="%repeat_password">
+                            <VBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                            </VBox.margin>
+                        </PasswordField>
+                        <Button fx:id="regButton" maxWidth="117.0" mnemonicParsing="false" onAction="#register"
+                                prefHeight="30.0" prefWidth="117.0" text="%register_button">
+                            <VBox.margin>
+                                <Insets top="20.0"/>
+                            </VBox.margin>
+                        </Button>
+                        <Label fx:id="authLabel" onMouseClicked="#showAuthMenu" onMouseEntered="#underlineAuthLabel"
+                               onMouseExited="#undoUnderlineAuthLabel" text="%switch_reg2auth" textFill="#0000005d">
+                            <VBox.margin>
+                                <Insets top="20.0"/>
+                            </VBox.margin>
+                            <cursor>
+                                <Cursor fx:constant="OPEN_HAND"/>
+                            </cursor>
+                        </Label>
+                    </children>
+                </VBox>
+                <Label fx:id="errorLabel" alignment="CENTER" layoutX="134.0" layoutY="113.0" prefHeight="32.0"
+                       prefWidth="292.0" textAlignment="CENTER" textFill="RED"/>
+            </AnchorPane>
+        </Scene>
+    </scene>
+</Stage>

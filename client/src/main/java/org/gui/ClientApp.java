@@ -7,7 +7,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.client.ClientAppBackend;
 import org.gui.controllers.AuthorizationController;
-
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,25 +24,23 @@ public class ClientApp extends Application {
         appLogger.log(Level.INFO, "Starting Root Stage");
 
         // main
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/org/client/main.fxml"));
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/org/client/fxml/main.fxml"));
         //mainLoader.setController(new AuthorizationController(appBackend));
         AnchorPane mainRoot = mainLoader.load();
         Scene mainScene = new Scene(mainRoot);
         Stage mainStage = new Stage();
         mainStage.setScene(mainScene);
         mainStage.setResizable(false);
-        mainStage.setTitle("Программа");
 
         // auth
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/client/auth.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/client/fxml/auth.fxml"));
+        Locale.setDefault(new Locale("ru_RU"));
+        System.out.println(Locale.getDefault());
+        loader.setResources(ResourceBundle.getBundle("org/client/messages", Locale.getDefault()));
         loader.setController(new AuthorizationController(appBackend, mainStage));
-        AnchorPane root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("Авторизация");
+        Stage root = loader.load();
+        root.setResizable(false);
 
-
-        stage.show();
+        root.show();
     }
 }

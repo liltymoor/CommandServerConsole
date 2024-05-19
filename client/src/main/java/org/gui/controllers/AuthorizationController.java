@@ -51,18 +51,6 @@ public class AuthorizationController {
         this.mainStage = mainStage;
     }
 
-//    @FXML
-//    private void handleLogin() {
-//        String username = usernameField.getText();
-//        if (username.isEmpty()) return;
-//        String password = passwordField.getText();
-//        if (password.isEmpty()) return;
-//
-//        User userInfo = new User(username, password);
-//        backend.invokeCommand("auth", userInfo);
-//
-//    }
-
     @FXML
     public void underlineRegisterLabel(){
         registerLabel.setStyle("-fx-underline: true");
@@ -86,14 +74,12 @@ public class AuthorizationController {
     public void showRegisterMenu(){
         regVBox.setVisible(true);
         authVBox.setVisible(false);
-        mainLabel.setText("Регистрация");
     }
 
     @FXML
     public void showAuthMenu(){
         authVBox.setVisible(true);
         regVBox.setVisible(false);
-        mainLabel.setText("Авторизация");
     }
 
     @FXML
