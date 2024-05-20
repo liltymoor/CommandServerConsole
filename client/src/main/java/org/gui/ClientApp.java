@@ -34,10 +34,12 @@ public class ClientApp extends Application {
 
         // auth
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/client/fxml/auth.fxml"));
-        Locale.setDefault(new Locale("ru_RU"));
+        // ----
+        //Locale.setDefault(new Locale("ru_RU"));
         System.out.println(Locale.getDefault());
+        // ----
         loader.setResources(ResourceBundle.getBundle("org/client/messages", Locale.getDefault()));
-        loader.setController(new AuthorizationController(appBackend, mainStage));
+        loader.setController(new AuthorizationController(appBackend, mainStage, Locale.getDefault()));
         Stage root = loader.load();
         root.setResizable(false);
 

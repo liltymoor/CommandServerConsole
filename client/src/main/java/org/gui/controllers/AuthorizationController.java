@@ -9,7 +9,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.client.ClientAppBackend;
-import org.shared.network.User;
+
+import java.util.Locale;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 public class AuthorizationController {
     @FXML
@@ -45,10 +48,17 @@ public class AuthorizationController {
 
     private final Stage mainStage;
     private final ClientAppBackend backend;
+    private final ResourceBundle messages;
+    private final ResourceBundle errors;
 
-    public AuthorizationController(ClientAppBackend backend, Stage mainStage) {
+    public AuthorizationController(ClientAppBackend backend, Stage mainStage, Locale locale) {
         this.backend = backend;
         this.mainStage = mainStage;
+        this.errors = ResourceBundle.getBundle("org/client/errors", Locale.getDefault());
+        System.out.println(errors.getBaseBundleName());
+        System.out.println(errors.getLocale());
+        System.out.println(errors.keySet());
+        this.messages = ResourceBundle.getBundle("org/client/messages", Locale.getDefault());
     }
 
     @FXML
@@ -86,11 +96,11 @@ public class AuthorizationController {
     public void register(){
         errorLabel.setText("");
         if (registerUsernameField.getText().isEmpty() || registerPasswordField1.getText().isEmpty() || registerPasswordField2.getText().isEmpty()) {
-            errorLabel.setText("Заполните все поля и повторите попытку");
+            errorLabel.setText(errors.getString("empty_field_error"));
             return;
         }
         if (!registerPasswordField1.getText().equals(registerPasswordField2.getText())) {
-            errorLabel.setText("Пароли не совпадают");
+            errorLabel.setText(errors.getString("password_mismatch_error"));
             return;
         }
 
@@ -105,10 +115,12 @@ public class AuthorizationController {
     public void auth(){
         errorLabel.setText("");
         if (registerUsernameField.getText().isEmpty() || registerPasswordField1.getText().isEmpty() || registerPasswordField2.getText().isEmpty()) {
-            errorLabel.setText("Заполните все поля и повторите попытку");
+            errorLabel.setText(errors.getString("empty_field_error"));
             return;
         }
         // backend
+        // + обработать ошибки от сервера
+        // ... errorLabel.setText(errors.getString("auth_error"));
 
         Stage stage = (Stage) authVBox.getScene().getWindow();
         stage.close();
