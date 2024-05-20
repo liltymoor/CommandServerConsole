@@ -11,7 +11,12 @@
     <custom-resource-bundle>
       <file value="file://$PROJECT_DIR$/client/src/main/resources/org/client/messages.properties" />
       <file value="file://$PROJECT_DIR$/client/src/main/resources/org/client/messages_en_US.properties" />
-      <file value="file://$PROJECT_DIR$/client/src/main/resources/org/client/messages_ru_ru.properties" />
+      <base-name>messages</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/client/src/main/resources/org/client/messages.properties" />
+      <file value="file://$PROJECT_DIR$/client/src/main/resources/org/client/messages_en_US.properties" />
+      <file value="file://$PROJECT_DIR$/client/src/main/resources/org/client/messages_ru_RU.properties" />
       <base-name>messages</base-name>
     </custom-resource-bundle>
   </component>

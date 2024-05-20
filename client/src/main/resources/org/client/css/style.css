@@ -62,3 +62,16 @@
     -fx-font-size: 14px;
     -fx-text-fill: red;
 }
+
+.choice-box {
+    -fx-pref-height: 15px;
+    -fx-pref-width: 90px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-background-radius: 5;
+    -fx-border-color: #d3d3d3;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+}

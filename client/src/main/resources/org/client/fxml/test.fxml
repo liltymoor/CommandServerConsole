@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.MainController">
+    <!-- Верхняя панель с текущим пользователем и сменой языка -->
+    <HBox spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Label text="%current_user"/>
+        <Label fx:id="currentUserLabel" text="User: guest" />
+        <ChoiceBox fx:id="langChoiceBox" />
+        <Button text="%logout" onAction="#logout" />
+    </HBox>
+
+    <!-- Центральная часть с таблицей и областью визуализации -->
+    <SplitPane orientation="VERTICAL">
+        <SplitPane orientation="HORIZONTAL">
+            <!-- Левая часть с таблицей объектов -->
+            <TableView fx:id="humanTableView">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="%id" />
+                    <TableColumn fx:id="nameColumn" text="%name" />
+                    <TableColumn fx:id="coordsColumn" text="%coordinates" />
+                    <TableColumn fx:id="zonedDTColumn" text="%zoned_date_time" />
+                    <TableColumn fx:id="realHeroColumn" text="%real_hero" />
+                    <TableColumn fx:id="hasToothpickColumn" text="%has_toothpick" />
+                    <TableColumn fx:id="impactSpeedColumn" text="%impact_speed" />
+                    <TableColumn fx:id="minutesOfWaitingColumn" text="%minutes_of_waiting" />
+                    <TableColumn fx:id="weaponTypeColumn" text="%weapon_type" />
+                    <TableColumn fx:id="moodColumn" text="%mood" />
+                    <TableColumn fx:id="carModelColumn" text="%car_model" />
+                </columns>
+            </TableView>
+
+            <!-- Правая часть с областью визуализации объектов -->
+            <VBox>
+                <Canvas fx:id="visualizationCanvas" width="400" height="400" />
+            </VBox>
+        </SplitPane>
+
+        <!-- Нижняя часть с управляющими кнопками -->
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="%add_object" onAction="#addObject" />
+            <Button text="%edit_object" onAction="#editObject" />
+            <Button text="%remove_object" onAction="#removeObject" />
+        </HBox>
+    </SplitPane>
+</VBox>
