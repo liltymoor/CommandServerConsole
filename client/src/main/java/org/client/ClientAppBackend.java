@@ -4,6 +4,8 @@ import org.client.commands.*;
 import org.client.commands.managers.CommandHost;
 import org.client.commands.managers.CommandInvoker;
 import org.client.commands.managers.InputHandler;
+import org.client.commands.properties.ActionCode;
+import org.client.commands.properties.CommandResult;
 import org.client.exceptions.CommandNotFoundException;
 import org.client.network.ClientUDP;
 
@@ -56,13 +58,16 @@ public class ClientAppBackend {
         commandHost.addCommand(new RemoveAllByWeaponCommand(client));
         commandHost.addCommand(new PrintUniqueImpactCommand(client));
         commandHost.addCommand(new AuthCommand(client));
+        commandHost.addCommand(new RegisterCommand(client));
         return true;
     }
 
-    public void invokeCommand(String stringCommand, Object... args) {
+    public CommandResult invokeCommand(String stringCommand, Object... args) {
         Command command = commandHost.getCommands().get(stringCommand);
-        try { commandInvoker.invoke(command, args); }
+        try { return commandInvoker.invoke(command, args); }
         catch (CommandNotFoundException e) { backendLogger.warning("Command not found"); }
+
+        return new CommandResult(ActionCode.ERROR, "Command not found");
     }
 
 

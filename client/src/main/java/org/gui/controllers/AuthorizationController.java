@@ -7,6 +7,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.client.ClientAppBackend;
+import org.client.commands.properties.ActionCode;
+import org.client.commands.properties.CommandResult;
+import org.shared.network.User;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -141,16 +144,23 @@ public class AuthorizationController implements Initializable {
     @FXML
     public void register() {
         errorLabel.setText("");
-        if (registerUsernameField.getText().isEmpty() || registerPasswordField1.getText().isEmpty() || registerPasswordField2.getText().isEmpty()) {
+        String username = registerUsernameField.getText();
+        String password = registerPasswordField1.getText();
+        String passwordConfirm = registerPasswordField2.getText();
+        if (username.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) {
             errorLabel.setText(errors.getString("empty_field_error"));
             return;
         }
-        if (!registerPasswordField1.getText().equals(registerPasswordField2.getText())) {
+        if (!password.equals(passwordConfirm)) {
             errorLabel.setText(errors.getString("password_mismatch_error"));
             return;
         }
 
-        // backend
+        CommandResult regResult = backend.invokeCommand("reg", new User(username, password));
+        if (regResult.getCode() != ActionCode.OK) {
+            errorLabel.setText(errors.getString("reg_error"));
+            return;
+        }
 
         Stage stage = (Stage) authVBox.getScene().getWindow();
         stage.close();
@@ -160,14 +170,18 @@ public class AuthorizationController implements Initializable {
     @FXML
     public void auth() {
         errorLabel.setText("");
-        if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        if (username.isEmpty() || password.isEmpty()) {
             errorLabel.setText(errors.getString("empty_field_error"));
             return;
         }
-        // backend
-        // + обработать ошибки от сервера
-        // ... errorLabel.setText(errors.getString("auth_error"));
 
+        CommandResult authResult = backend.invokeCommand("auth", new User(username, password));
+        if (authResult.getCode() != ActionCode.OK) {
+            errorLabel.setText(errors.getString("auth_error"));
+            return;
+        }
         Stage stage = (Stage) authVBox.getScene().getWindow();
         stage.close();
         mainStage.show();

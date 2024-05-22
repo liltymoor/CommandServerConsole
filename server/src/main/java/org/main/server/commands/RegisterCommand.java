@@ -1,11 +1,9 @@
 package org.main.server.commands;
 
-import org.main.server.commands.properties.ActionCode;
-import org.main.server.commands.properties.CommandResult;
-import org.main.server.commands.properties.HostActionable;
-import org.main.server.commands.properties.InputCompoundable;
+import org.main.server.commands.properties.*;
 import org.main.server.fs.CollectionIO;
 import org.main.server.fs.RegistrationResult;
+import org.main.server.network.JwtTokenManager;
 import org.shared.model.input.buildrule.Builder;
 import org.shared.model.input.buildrule.UserBuilder;
 import org.shared.network.User;
@@ -13,7 +11,7 @@ import org.shared.network.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterCommand extends HostCommand implements InputCompoundable {
+public class RegisterCommand extends ClientCommand implements NotAuthorizable, InputCompoundable, HostActionable {
     private final CollectionIO collection;
     public RegisterCommand(CollectionIO collection) {
         super("reg", "Команда для регистрации новых пользователей.");
@@ -22,19 +20,21 @@ public class RegisterCommand extends HostCommand implements InputCompoundable {
 
     @Override
     public CommandResult hostAction(String[] params) {
-        User userInfo = new User(params[0], params[1]);
-        RegistrationResult result = collection.registerUser(userInfo);
-        if (result == RegistrationResult.SUCCESS)
-            return new CommandResult(ActionCode.OK, result.getDescription());
-        return new CommandResult(ActionCode.ERROR, result.getDescription());
+        return action(new Object[]{new User(params[0], params[1])});
     }
 
     @Override
     public CommandResult hostAction(Object[] params) {
+        return action(params);
+    }
+
+
+    @Override
+    public CommandResult action(Object[] params) {
         User userInfo = (User)params[0];
         RegistrationResult result = collection.registerUser(userInfo);
         if (result == RegistrationResult.SUCCESS)
-            return new CommandResult(ActionCode.OK, result.getDescription());
+            return new CommandResult(ActionCode.OK, JwtTokenManager.generateToken(userInfo.getUsername()));
         return new CommandResult(ActionCode.ERROR, result.getDescription());
     }
 
