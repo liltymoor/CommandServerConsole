@@ -1,0 +1,77 @@
+/* styles.css */
+
+.root {
+    -fx-background-color: #f0f4f7;
+}
+
+.label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+#mainLabel {
+    -fx-font-family: "Arial";
+    -fx-font-size: 35px;
+    -fx-text-fill: #333333;
+}
+
+.text-field, .password-field {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 200px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-background-radius: 10;
+    -fx-border-color: #d3d3d3;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+}
+
+.button {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 100px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 5, 0.0, 2, 2);
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+#registerLabel, #authLabel {
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-text-fill: #0000005d;
+    -fx-cursor: hand;
+    -fx-underline: false;
+}
+
+#registerLabel:hover, #authLabel:hover {
+    -fx-text-fill: #333333;
+    -fx-underline: true;
+}
+
+#errorLabel {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: red;
+}
+
+.choice-box {
+    -fx-pref-height: 15px;
+    -fx-pref-width: 90px;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-background-radius: 5;
+    -fx-border-color: #d3d3d3;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+}
