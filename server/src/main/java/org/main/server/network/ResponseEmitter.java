@@ -19,7 +19,7 @@ public class ResponseEmitter {
     }
 
     private ByteBuffer wrapResponse(CommandResult result) {
-        Response response = new Response(result.getCode().toString(), result.getMessage());
+        Response response = new Response(result.getCode().toString(), result.getMessage(), result.getAnswerData());
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(bos)) {
             oos.writeObject(response);

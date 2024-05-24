@@ -6,6 +6,7 @@ import org.client.exceptions.WrongArgException;
 import org.client.network.ClientUDP;
 
 public class ShowCommand extends ServerCommand {
+    @Deprecated
     public ShowCommand(ClientUDP client) {
         super("show", "Команда для вывода в терминал элементов коллекции.", client);
     }

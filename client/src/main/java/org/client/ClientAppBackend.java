@@ -70,6 +70,7 @@ public class ClientAppBackend {
         return new CommandResult(ActionCode.ERROR, "Command not found");
     }
 
+    public Col
 
 //    public static void main(String[] args) {
 //        ClientUDP client = null;

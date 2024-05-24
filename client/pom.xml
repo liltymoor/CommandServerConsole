@@ -17,7 +17,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <javafx.version>17.0.2</javafx.version>
+        <javafx.version>17.0.0.1</javafx.version>
+        <java.home>/home/liltymoor/.jdks/corretto-17.0.11</java.home>
     </properties>
 
     <dependencies>
@@ -62,6 +63,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>org.gui.ClientApp</mainClass>
+                    <executable>/home/liltymoor/.jdks/corretto-17.0.11/bin/java</executable>
                 </configuration>
             </plugin>
             <plugin>
@@ -73,7 +75,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.client.ClientAppBackend</mainClass>
+                            <mainClass>org.gui.ClientApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

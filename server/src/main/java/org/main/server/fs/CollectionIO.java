@@ -215,4 +215,8 @@ public class CollectionIO {
     public UserAuthResult authUser(User userInfo) {
         return dbHelper.validateUser(userInfo.getUsername(), userInfo.getPassword());
     }
+
+    public LinkedHashSet<HumanBeing> getBeings() {
+        return resultSet;
+    }
 }

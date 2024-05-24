@@ -7,6 +7,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.client.ClientAppBackend;
 import org.gui.controllers.AuthorizationController;
+import org.gui.controllers.MainController;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,7 +27,7 @@ public class ClientApp extends Application {
 
         // main
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/org/client/fxml/main.fxml"));
-        //mainLoader.setController(new AuthorizationController(appBackend));
+        mainLoader.setController(new MainController());
         AnchorPane mainRoot = mainLoader.load();
         Scene mainScene = new Scene(mainRoot);
         Stage mainStage = new Stage();
