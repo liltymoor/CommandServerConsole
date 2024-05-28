@@ -3,6 +3,7 @@ package org.client.commands;
 import org.client.commands.managers.CommandHost;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
+import org.client.commands.types.ServerCommand;
 import org.client.network.ClientUDP;
 
 public class HistoryCommand extends ServerCommand {

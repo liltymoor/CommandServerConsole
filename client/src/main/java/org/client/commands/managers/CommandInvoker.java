@@ -1,8 +1,9 @@
 package org.client.commands.managers;
 
-import org.client.commands.Command;
-import org.client.commands.properties.ActionCode;
+import org.client.commands.properties.DataProvidedCommandResult;
+import org.client.commands.types.Command;
 import org.client.commands.properties.CommandResult;
+import org.client.commands.types.DataProvidableServerCommand;
 import org.client.exceptions.CommandNotFoundException;
 
 /**
@@ -29,6 +30,24 @@ public class CommandInvoker {
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
         CommandResult result = commandToInvoke.action(new String[] {});
+        System.out.printf("[CLIENT] %s%n", result.toString());
+        return result;
+    }
+
+    public <T> DataProvidedCommandResult<T> call(DataProvidableServerCommand<T> commandToInvoke, Object[] params) {
+        if (commandToInvoke == null)
+            throw new CommandNotFoundException();
+        host.appendHistory(commandToInvoke);
+        DataProvidedCommandResult<T> result = commandToInvoke.action(new String[] {});
+        System.out.printf("[CLIENT] %s%n", result.toString());
+        return result;
+    }
+
+    public <T> DataProvidedCommandResult<T> call(DataProvidableServerCommand<T> commandToInvoke) {
+        if (commandToInvoke == null)
+            throw new CommandNotFoundException();
+        host.appendHistory(commandToInvoke);
+        DataProvidedCommandResult<T> result = commandToInvoke.action(new String[] {});
         System.out.printf("[CLIENT] %s%n", result.toString());
         return result;
     }

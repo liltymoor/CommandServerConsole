@@ -1,4 +1,4 @@
-package org.main.server.commands;
+package org.main.server.commands.types;
 
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;

@@ -2,7 +2,7 @@ package org.main.server.commands;
 
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
-import org.main.server.commands.properties.HostActionable;
+import org.main.server.commands.types.HostCommand;
 import org.main.server.fs.CollectionIO;
 
 import java.util.Arrays;

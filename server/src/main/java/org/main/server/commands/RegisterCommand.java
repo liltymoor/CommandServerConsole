@@ -1,6 +1,7 @@
 package org.main.server.commands;
 
 import org.main.server.commands.properties.*;
+import org.main.server.commands.types.ClientCommand;
 import org.main.server.fs.CollectionIO;
 import org.main.server.fs.RegistrationResult;
 import org.main.server.network.JwtTokenManager;

@@ -4,12 +4,12 @@ import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
 
 import org.main.server.commands.properties.InputCompoundable;
+import org.main.server.commands.types.UserClientCommand;
 import org.main.server.fs.CollectionIO;
 
 import org.shared.model.entity.HumanBeing;
 import org.shared.model.input.buildrule.Builder;
 import org.shared.model.input.buildrule.HumanBeingBuilder;
-import org.shared.model.input.buildrule.HumanBeingWithIdBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

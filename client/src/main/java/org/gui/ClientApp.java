@@ -2,11 +2,10 @@ package org.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.client.ClientAppBackend;
 import org.gui.controllers.AuthorizationController;
+import org.gui.controllers.BackendControllerFactory;
 import org.gui.controllers.MainController;
 
 import java.util.Locale;
@@ -16,7 +15,11 @@ import java.util.logging.Logger;
 
 public class ClientApp extends Application {
     private static final Logger appLogger = Logger.getLogger("ClientApp");
+
     private  static final ClientAppBackend appBackend = new ClientAppBackend();
+    private static final MainController mainController = new MainController(appBackend);
+    private static final BackendControllerFactory controllerFactory = new BackendControllerFactory(mainController, appBackend);
+
     public static void main(String[] args) {
         appLogger.log(Level.INFO, "Starting ClientApp...");
         Application.launch();
@@ -26,18 +29,12 @@ public class ClientApp extends Application {
         appLogger.log(Level.INFO, "Starting Root Stage");
 
         // main
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/org/client/fxml/main.fxml"));
-        mainLoader.setController(new MainController());
-        AnchorPane mainRoot = mainLoader.load();
-        Scene mainScene = new Scene(mainRoot);
         Stage mainStage = new Stage();
-        mainStage.setScene(mainScene);
-        mainStage.setResizable(false);
 
         // auth
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/client/fxml/auth.fxml"));
         loader.setResources(ResourceBundle.getBundle("org/client/messages", Locale.getDefault()));
-        loader.setController(new AuthorizationController(appBackend, mainStage, Locale.getDefault()));
+        loader.setController(new AuthorizationController(appBackend, mainStage, Locale.getDefault(), controllerFactory, mainController));
         Stage root = loader.load();
         root.setResizable(false);
 

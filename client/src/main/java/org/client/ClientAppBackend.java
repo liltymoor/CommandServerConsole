@@ -3,13 +3,14 @@ package org.client;
 import org.client.commands.*;
 import org.client.commands.managers.CommandHost;
 import org.client.commands.managers.CommandInvoker;
-import org.client.commands.managers.InputHandler;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
+import org.client.commands.properties.DataProvidedCommandResult;
+import org.client.commands.types.Command;
+import org.client.commands.types.DataProvidableServerCommand;
 import org.client.exceptions.CommandNotFoundException;
 import org.client.network.ClientUDP;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class ClientAppBackend {
@@ -59,6 +60,7 @@ public class ClientAppBackend {
         commandHost.addCommand(new PrintUniqueImpactCommand(client));
         commandHost.addCommand(new AuthCommand(client));
         commandHost.addCommand(new RegisterCommand(client));
+        commandHost.addCommand(new GetHumansCommand(client));
         return true;
     }
 
@@ -70,7 +72,17 @@ public class ClientAppBackend {
         return new CommandResult(ActionCode.ERROR, "Command not found");
     }
 
-    public Col
+    public <T> DataProvidedCommandResult<T> callCommand(String stringCommand, Object... args) {
+        try {
+            DataProvidableServerCommand<T> command = (DataProvidableServerCommand<T>) commandHost.getCommands().get(stringCommand);
+            return commandInvoker.call(command, args);
+        }
+        catch (ClassCastException e) { backendLogger.warning("Command is not callable, but invokable"); }
+        catch (CommandNotFoundException e) { backendLogger.warning("Command not found"); }
+
+        return new DataProvidedCommandResult<>(ActionCode.ERROR, null);
+    };
+
 
 //    public static void main(String[] args) {
 //        ClientUDP client = null;

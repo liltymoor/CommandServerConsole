@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TabPane layoutX="12.0" layoutY="13.0" prefHeight="696.0" prefWidth="1105.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="ServerData">
+          <Tab fx:id="tableTab" text="ServerData">
             <content>
-              <fx:include fx:id="table" source="table_tab.fxml"/>
+              <fx:include source="table_tab.fxml"/>
             </content>
           </Tab>
-          <Tab text="Radar">
+          <Tab fx:id="radarTab" text="Radar">
             <content>
-                <fx:include fx:id="radar" source="radar_tab.fxml"/>
+                <fx:include source="radar_tab.fxml"/>
             </content>
           </Tab>
         </tabs>

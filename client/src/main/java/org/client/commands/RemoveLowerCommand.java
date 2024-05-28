@@ -3,6 +3,7 @@ package org.client.commands;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.client.commands.properties.InputCompoundable;
+import org.client.commands.types.ServerCommand;
 import org.client.exceptions.WrongArgException;
 import org.client.network.ClientUDP;
 import org.shared.model.entity.HumanBeing;

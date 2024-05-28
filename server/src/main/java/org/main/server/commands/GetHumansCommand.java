@@ -2,15 +2,13 @@ package org.main.server.commands;
 
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
+import org.main.server.commands.types.UserClientCommand;
 import org.main.server.fs.CollectionIO;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class GetDataCommand extends UserClientCommand {
+public class GetHumansCommand extends UserClientCommand {
     private CollectionIO collection;
-    public GetDataCommand(CollectionIO collection) {
-        super("get_data", "Команда для получения клиентом списка с HumanBeing.");
+    public GetHumansCommand(CollectionIO collection) {
+        super("get_humans", "Команда для получения клиентом списка с HumanBeing.");
         this.collection = collection;
     }
 

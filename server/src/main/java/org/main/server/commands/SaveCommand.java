@@ -2,10 +2,11 @@ package org.main.server.commands;
 
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
+import org.main.server.commands.types.HostCommand;
 import org.main.server.exceptions.WrongArgException;
 import org.main.server.fs.CollectionIO;
 
-public class SaveCommand extends HostCommand{
+public class SaveCommand extends HostCommand {
     CollectionIO collection;
     public SaveCommand(CollectionIO collection) {
         super("save", "Команда для сохранения коллекции в файл.");

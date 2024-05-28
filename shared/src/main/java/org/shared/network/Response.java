@@ -8,15 +8,15 @@ public class Response implements Serializable {
 
     private final String resultCode;
     private final String resultMessage;
-    private final List<Object> resultData;
+    private final Object resultData;
 
-    public Response(String resultCode, String resultMessage, List<Object> resultData) {
+    public Response(String resultCode, String resultMessage, Object resultData) {
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
         this.resultData = resultData;
     }
 
-    public List<Object> getResultData() { return resultData; }
+    public Object getResultData() { return resultData; }
     public String getResultCode() {
         return resultCode;
     }

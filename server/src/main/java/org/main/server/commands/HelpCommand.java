@@ -5,6 +5,7 @@ import org.main.server.commands.managers.CommandHost;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
 import org.main.server.commands.properties.HostActionable;
+import org.main.server.commands.types.UserClientCommand;
 
 public class HelpCommand extends UserClientCommand implements HostActionable {
     private CommandHost host;

@@ -1,9 +1,13 @@
 package org.client.commands;
 
-import org.client.commands.properties.CommandResult;
+import org.client.commands.properties.DataProvidedCommandResult;
+import org.client.commands.types.DataProvidableServerCommand;
 import org.client.network.ClientUDP;
+import org.shared.model.entity.HumanBeing;
 
-public class GetHumansCommand extends ServerCommand {
+import java.util.LinkedHashSet;
+
+public class GetHumansCommand extends DataProvidableServerCommand<LinkedHashSet<HumanBeing>> {
     public GetHumansCommand(ClientUDP clientUDP) {
         super("get_humans", "Команда для получения всех HumanBeing", clientUDP);
     }
@@ -11,7 +15,8 @@ public class GetHumansCommand extends ServerCommand {
     //TODO Создать интерфейс с генериком, который будет возвращать результаты из Response (который возвращает resultData)
 
     @Override
-    public CommandResult action(Object[] params) {
-        return null;
+    public DataProvidedCommandResult<LinkedHashSet<HumanBeing>> action(Object[] params) {
+        return sendCommand(params);
+
     }
 }

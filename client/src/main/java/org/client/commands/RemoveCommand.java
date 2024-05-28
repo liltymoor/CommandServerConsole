@@ -2,11 +2,12 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
+import org.client.commands.types.ServerCommand;
 import org.client.exceptions.WrongArgException;
 import org.client.network.ClientUDP;
 
 
-public class RemoveCommand extends ServerCommand{
+public class RemoveCommand extends ServerCommand {
     public RemoveCommand(ClientUDP client) {
         super("remove", "Команда удаляет элемент из коллекци по ID.", client);
     }

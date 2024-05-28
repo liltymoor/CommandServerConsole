@@ -1,4 +1,4 @@
-package org.main.server.commands;
+package org.main.server.commands.types;
 import org.main.server.commands.properties.ClientActionable;
 
 public abstract class ClientCommand extends Command implements ClientActionable {

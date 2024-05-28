@@ -2,9 +2,10 @@ package org.client.commands;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
+import org.client.commands.types.Command;
 import org.client.exceptions.WrongArgException;
 
-public class SaveCommand extends Command{
+public class SaveCommand extends Command {
     public SaveCommand() {
         super("save", "Команда для сохранения коллекции в файл.");
     }

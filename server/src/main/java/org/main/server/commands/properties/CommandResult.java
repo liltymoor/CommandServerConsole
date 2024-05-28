@@ -1,14 +1,12 @@
 package org.main.server.commands.properties;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CommandResult {
     ActionCode code;
 
     String message = "No message were provided.";
-    List<Object> answerData;
+    Object answerData;
 
     public CommandResult(ActionCode code) {
         String fetchMessage = getCodesDescription().get(code.name());
@@ -39,20 +37,12 @@ public class CommandResult {
     }
     public String getMessage() { return message; }
 
-    public List<Object> getAnswerData() {
+    public Object getAnswerData() {
         return answerData;
     }
 
-    public CommandResult setAnswerData(List<Object> answerData) {
+    public CommandResult setAnswerData(Object answerData) {
         this.answerData = answerData;
-        return this;
-    }
-
-    public CommandResult setAnswerData(Object... answerData) {
-        this.answerData = new ArrayList<>();
-        for (Object o : answerData) {
-            this.answerData.add(o);
-        }
         return this;
     }
 }

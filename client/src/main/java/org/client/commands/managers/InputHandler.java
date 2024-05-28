@@ -1,6 +1,6 @@
 package org.client.commands.managers;
 
-import org.client.commands.Command;
+import org.client.commands.types.Command;
 import org.client.commands.properties.InputCompoundable;
 import org.client.exceptions.CommandNotFoundException;
 import org.shared.model.input.buildrule.Builder;

@@ -1,6 +1,6 @@
 package org.client.network;
 
-import org.client.commands.Command;
+import org.client.commands.types.Command;
 import org.shared.network.ChunkInfo;
 import org.shared.network.Request;
 import org.shared.network.Response;

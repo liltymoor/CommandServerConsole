@@ -6,6 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.client.ClientAppBackend;
+import org.client.commands.properties.DataProvidedCommandResult;
 import org.shared.model.entity.Car;
 import org.shared.model.entity.HumanBeing;
 import org.shared.model.entity.params.Coordinates;
@@ -14,10 +15,16 @@ import org.shared.model.weapon.WeaponType;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
 public class TableTabController implements Initializable{
 
+    public TableTabController(MainController parent, ClientAppBackend appBackend) {
+        this.appBackend = appBackend;
+        parentController = parent;
+    }
+    private final MainController parentController;
     private ClientAppBackend appBackend;
     @FXML
     private TableView<HumanBeing> dataTable;
@@ -60,13 +67,6 @@ public class TableTabController implements Initializable{
     @FXML
     private TableColumn<HumanBeing, Car> modelCarColumn;
 
-    //
-
-    public void setAppBackend(ClientAppBackend appBackend) {
-        this.appBackend = appBackend;
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -81,6 +81,7 @@ public class TableTabController implements Initializable{
         moodColumn.setCellValueFactory(new PropertyValueFactory<>("mood"));
         modelCarColumn.setCellValueFactory(new PropertyValueFactory<>("modelCar"));
 
-        dataTable.getItems().addAll();
+        DataProvidedCommandResult<LinkedHashSet<HumanBeing>> commandResult = appBackend.callCommand("get_humans");
+        dataTable.getItems().addAll(commandResult.getData());
     }
 }
