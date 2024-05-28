@@ -1,4 +1,4 @@
-package org.main.server.commands;
+package org.main.server.commands.types;
 import org.main.server.commands.properties.HostActionable;
 
 public abstract class HostCommand extends Command implements HostActionable {

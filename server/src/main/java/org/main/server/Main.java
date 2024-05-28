@@ -91,6 +91,7 @@ public class Main {
         cmndHost.addCommand(new PrintUniqueImpactCommand(collection));
         cmndHost.addCommand(new RegisterCommand(collection));
         cmndHost.addCommand(new AuthCommand(collection));
+        cmndHost.addCommand(new GetHumansCommand(collection));
 
         // INVOKING COMMAND "HELP" FOR HELP TO START
 

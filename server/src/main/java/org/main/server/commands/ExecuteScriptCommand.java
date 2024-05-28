@@ -3,6 +3,7 @@ package org.main.server.commands;
 import org.main.server.commands.managers.CommandHost;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
+import org.main.server.commands.types.ClientCommand;
 import org.main.server.exceptions.WrongArgException;
 
 public class ExecuteScriptCommand extends ClientCommand {

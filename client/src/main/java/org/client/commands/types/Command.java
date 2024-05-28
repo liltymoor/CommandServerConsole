@@ -1,9 +1,10 @@
-package org.main.server.commands;
+package org.client.commands.types;
 
-import org.main.server.commands.properties.Describable;
+import org.client.commands.properties.Actionable;
+import org.client.commands.properties.Describable;
 
-public abstract class Command implements Describable {
-    private String commandName;
+public abstract class Command implements Actionable, Describable {
+    private final String commandName;
     private String description = "";
 
     public Command(String commandName) {
@@ -20,6 +21,10 @@ public abstract class Command implements Describable {
         return this.description.isEmpty() ? Describable.super.getDescription() : description;
     }
 
+    protected void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getName() {
         return commandName;
     }
@@ -29,5 +34,4 @@ public abstract class Command implements Describable {
     public String toString() {
         return "Command: %s%nDescription: %s".formatted(this.commandName, this.description);
     }
-
 }

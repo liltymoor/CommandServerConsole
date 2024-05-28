@@ -1,10 +1,10 @@
 package org.main.server.commands;
 
-import org.main.server.commands.managers.InputRule;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
 import org.main.server.commands.properties.HostActionable;
 import org.main.server.commands.properties.InputCompoundable;
+import org.main.server.commands.types.UserClientCommand;
 import org.main.server.exceptions.BadLogicWereEaten;
 import org.main.server.fs.CollectionIO;
 import org.shared.model.entity.HumanBeing;
@@ -12,7 +12,6 @@ import org.shared.model.input.buildrule.Builder;
 import org.shared.model.input.buildrule.HumanBeingWithIdBuilder;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class UpdateCommand extends UserClientCommand implements InputCompoundable, HostActionable {

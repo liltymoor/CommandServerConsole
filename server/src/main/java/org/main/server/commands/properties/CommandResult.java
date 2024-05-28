@@ -6,6 +6,8 @@ public class CommandResult {
     ActionCode code;
 
     String message = "No message were provided.";
+    Object answerData;
+
     public CommandResult(ActionCode code) {
         String fetchMessage = getCodesDescription().get(code.name());
         if (fetchMessage!= null)
@@ -34,4 +36,13 @@ public class CommandResult {
         return code;
     }
     public String getMessage() { return message; }
+
+    public Object getAnswerData() {
+        return answerData;
+    }
+
+    public CommandResult setAnswerData(Object answerData) {
+        this.answerData = answerData;
+        return this;
+    }
 }

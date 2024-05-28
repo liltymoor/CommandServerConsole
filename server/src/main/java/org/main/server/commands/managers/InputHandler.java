@@ -1,7 +1,5 @@
 package org.main.server.commands.managers;
 
-import org.main.server.commands.ClientCommand;
-import org.main.server.commands.Command;
 import org.main.server.commands.properties.HostActionable;
 import org.main.server.commands.properties.InputCompoundable;
 import org.main.server.exceptions.CommandNotFoundException;

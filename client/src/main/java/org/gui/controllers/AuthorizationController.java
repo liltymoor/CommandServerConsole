@@ -1,7 +1,9 @@
 package org.gui.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -11,11 +13,13 @@ import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
 import org.shared.network.User;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class AuthorizationController implements Initializable {
     @FXML
@@ -54,6 +58,9 @@ public class AuthorizationController implements Initializable {
     private final HashMap<String, Locale> langMap = new HashMap<>();
     private final Stage mainStage;
     private final ClientAppBackend backend;
+    private final MainController mainController;
+    private final BackendControllerFactory factory;
+
     private ResourceBundle messages;
     private ResourceBundle errors;
     private Locale locale;
@@ -72,10 +79,18 @@ public class AuthorizationController implements Initializable {
         return null;
     }
 
-    public AuthorizationController(ClientAppBackend backend, Stage mainStage, Locale locale) {
+    public AuthorizationController(
+            ClientAppBackend backend,
+            Stage mainStage,
+            Locale locale,
+            BackendControllerFactory factory,
+            MainController mainController
+    ) {
         this.backend = backend;
         this.mainStage = mainStage;
         this.locale = locale;
+        this.mainController = mainController;
+        this.factory = factory;
         this.errors = ResourceBundle.getBundle("org/client/errors", locale);
         this.messages = ResourceBundle.getBundle("org/client/messages", locale);
         initializeLangMap();
@@ -162,9 +177,7 @@ public class AuthorizationController implements Initializable {
             return;
         }
 
-        Stage stage = (Stage) authVBox.getScene().getWindow();
-        stage.close();
-        mainStage.show();
+        auth_passed();
     }
 
     @FXML
@@ -182,8 +195,29 @@ public class AuthorizationController implements Initializable {
             errorLabel.setText(errors.getString("auth_error"));
             return;
         }
+
+        auth_passed();
+    }
+
+    private void auth_passed() {
         Stage stage = (Stage) authVBox.getScene().getWindow();
         stage.close();
+
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/org/client/fxml/main.fxml"));
+        mainLoader.setController(mainController);
+        mainLoader.setControllerFactory(factory::controllerCreate);
+
+        AnchorPane mainRoot = null;
+        try {
+            mainRoot = mainLoader.load();
+        } catch (IOException e) {
+            Logger.getLogger("Authorization Controller").warning("Failed to load main FXML | " + e.getMessage());
+            return;
+        }
+        Scene mainScene = new Scene(mainRoot);
+
+        mainStage.setScene(mainScene);
+        mainStage.setResizable(false);
         mainStage.show();
     }
 

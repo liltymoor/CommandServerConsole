@@ -1,13 +1,10 @@
 package org.main.server.commands.managers;
 
-import org.main.server.commands.ClientCommand;
-import org.main.server.commands.Command;
-import org.main.server.commands.HostCommand;
+import org.main.server.commands.types.Command;
 import org.main.server.commands.properties.*;
 import org.main.server.exceptions.CommandNotFoundException;
 import org.main.server.exceptions.NotExecutableByClient;
 import org.main.server.exceptions.NotExecutableByHostException;
-import org.main.server.exceptions.UnauthorizedException;
 
 /**
  * @author lil_timmie

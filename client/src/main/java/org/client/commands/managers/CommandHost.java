@@ -1,6 +1,6 @@
 package org.client.commands.managers;
 
-import org.client.commands.Command;
+import org.client.commands.types.Command;
 import org.client.exceptions.MaxScriptDepthReachedException;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ package org.client.commands;
 import org.client.commands.managers.CommandHost;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
-import org.client.exceptions.WrongArgException;
+import org.client.commands.types.Command;
 
 public class HelpCommand extends Command {
     private CommandHost host;

@@ -3,6 +3,7 @@ package org.main.server.commands;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
 import org.main.server.commands.properties.NotAuthorizable;
+import org.main.server.commands.types.ClientCommand;
 import org.main.server.fs.CollectionIO;
 import org.main.server.fs.UserAuthResult;
 import org.main.server.network.JwtTokenManager;

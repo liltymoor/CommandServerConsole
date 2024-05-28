@@ -4,9 +4,9 @@ import org.client.commands.managers.CommandHost;
 import org.client.commands.managers.InputHandler;
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
+import org.client.commands.types.Command;
 import org.client.exceptions.CommandNotFoundException;
 import org.client.exceptions.MaxScriptDepthReachedException;
-import org.client.exceptions.WrongArgException;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;

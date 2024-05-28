@@ -3,6 +3,7 @@ package org.main.server.commands;
 import org.main.server.commands.properties.ActionCode;
 import org.main.server.commands.properties.CommandResult;
 import org.main.server.commands.properties.HostActionable;
+import org.main.server.commands.types.UserClientCommand;
 import org.main.server.fs.CollectionIO;
 
 public class InfoCommand extends UserClientCommand implements HostActionable {

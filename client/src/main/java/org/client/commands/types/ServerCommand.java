@@ -1,4 +1,4 @@
-package org.client.commands;
+package org.client.commands.types;
 
 import org.client.commands.properties.ActionCode;
 import org.client.commands.properties.CommandResult;
@@ -21,9 +21,14 @@ public abstract class ServerCommand extends Command {
         this.client = client;
     }
 
-    protected CommandResult sendCommand(Object[] args) {
+    protected Response sendCommandData(Object[] args) {
         ByteBuffer data = NetworkByteWrapper.wrapRequest(this, client.getToken(), args);
-        Response response = client.sendAndGetResponse(data);
+        return client.sendAndGetResponse(data);
+    }
+
+
+    protected CommandResult sendCommand(Object[] args) {
+        Response response = sendCommandData(args);
         System.out.println("[CLIENT] Server response received\n");
         return new CommandResult(ActionCode.valueOf(response.getResultCode()), response.getResultMessage());
     }
