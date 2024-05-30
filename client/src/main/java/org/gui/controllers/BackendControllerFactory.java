@@ -2,6 +2,7 @@ package org.gui.controllers;
 
 import org.client.ClientAppBackend;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
@@ -31,6 +32,12 @@ public class BackendControllerFactory {
 
     private void initControllersCreators() {
         controllerCreators.put(TableTabController.class, () -> new TableTabController(parentController, data)); // пассуем любую хуйню внутрь контроллера теперь
-        controllerCreators.put(RadarTabController.class, () -> new RadarTabController(parentController, data));
+        controllerCreators.put(RadarTabController.class, () -> {
+            try {
+                return new RadarTabController(parentController, data);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
