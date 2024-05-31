@@ -33,6 +33,7 @@ public class MainController implements Initializable {
             return new Task<>() {
                 @Override
                 protected Void call() {
+                    if (tableController == null || radarController == null) return null;
                     syncCollection();
                     return null;
                 }
@@ -40,7 +41,8 @@ public class MainController implements Initializable {
         }
 
         protected void syncCollection() {
-            appBackend.syncCollection();
+            if (!tableController.isEditing())
+                appBackend.syncCollection();
         }
     }
 
@@ -54,5 +56,13 @@ public class MainController implements Initializable {
         syncService = new SyncService();
         syncService.setPeriod(Duration.seconds(5));
         syncService.start();
+    }
+
+    public void setTableController(TableTabController tableController) {
+        this.tableController = tableController;
+    }
+
+    public void setRadarController(RadarTabController radarController) {
+        this.radarController = radarController;
     }
 }

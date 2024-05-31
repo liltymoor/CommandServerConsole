@@ -122,14 +122,16 @@ public class CollectionIO {
 
     public boolean editCollectionEntity(HumanBeing updated, String username) {
         if (dbHelper.updateHuman(updated, username))
-            for (HumanBeing being: resultSet)
-                if (being.getId() == updated.getId() && being.getEntityOwner().equals(username)) {
+            for (HumanBeing being: resultSet) {
+                if (being.getId() == updated.getId() // && being.getEntityOwner().equals(username)
+                ) {
                     ArrayList<HumanBeing> tempList = new ArrayList<>(resultSet);
                     tempList.set(tempList.indexOf(being), updated);
                     resultSet.clear();
                     resultSet.addAll(tempList);
                     return true;
                 }
+            }
         return false;
     }
 

@@ -4,6 +4,7 @@ import org.shared.model.entity.HumanBeing;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author lil_timmie
@@ -52,5 +53,9 @@ public class Coordinates implements Serializable {
         if (obj == null || getClass() != obj.getClass()) return false;
         Coordinates humanBeing = (Coordinates) obj;
         return x.equals(humanBeing.x) && y.equals(humanBeing.y);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(x,y);
     }
 }

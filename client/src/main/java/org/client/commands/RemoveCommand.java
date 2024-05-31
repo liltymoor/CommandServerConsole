@@ -21,8 +21,13 @@ public class RemoveCommand extends ServerCommand {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong amount of arguments were passed.");
         }
 
-        int idToRemove = Integer.parseInt((String) params[0]);
+        int idToRemove;
 
+        try {
+            idToRemove = Integer.parseInt(params[0].toString());
+        } catch (ClassCastException ex) {
+            return new CommandResult(ActionCode.BAD_INPUT, "Wrong ID was given | " + ex.getMessage());
+        }
         return sendCommand(new Object[] {idToRemove});
 
     }

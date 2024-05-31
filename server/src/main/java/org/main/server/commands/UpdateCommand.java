@@ -25,15 +25,12 @@ public class UpdateCommand extends UserClientCommand implements InputCompoundabl
     public CommandResult action(Object[] params, String username) {
 
         HumanBeing being;
-        int id;
         try {
-            id = (int) params[0];
-            being = (HumanBeing) params[1];
+            being = (HumanBeing) params[0];
         } catch (BadLogicWereEaten ex) {
             return new CommandResult(ActionCode.BAD_INPUT, "Wrong data were eaten by program.");
         }
 
-        being.setId(id);
         being.setEntityOwner(username);
         if (collection.editCollectionEntity(being, username))
             return new CommandResult(ActionCode.OK);

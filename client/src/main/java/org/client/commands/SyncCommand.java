@@ -8,9 +8,7 @@ import org.client.exceptions.WrongArgException;
 import org.client.network.ClientUDP;
 import org.shared.model.entity.HumanBeing;
 
-import java.util.AbstractCollection;
-import java.util.AbstractSet;
-import java.util.LinkedHashSet;
+
 import java.util.List;
 
 public class SyncCommand extends ServerCommand {
@@ -21,8 +19,15 @@ public class SyncCommand extends ServerCommand {
     @Override
     public CommandResult action(Object[] params) {
         if (params.length != 1) return new CommandResult(ActionCode.BAD_INPUT, new WrongArgException().getMessage());
+        List<HumanBeing> listToSync;
+
         try {
-            List<HumanBeing> listToSync = (List<HumanBeing>) params[0];
+            listToSync = ((ObservableList<HumanBeing>) params[0]).stream().toList();
+            return sendCommand(new Object[]{listToSync});
+        } catch (ClassCastException ignored) {}
+
+        try {
+            listToSync = (List<HumanBeing>) params[0];
             return sendCommand(new Object[]{listToSync});
         } catch (ClassCastException e) {
             return new CommandResult(ActionCode.BAD_INPUT, "[SYNC COMMAND] Sync command works with List<HumanBeing> and it's siblings only.");

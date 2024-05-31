@@ -97,8 +97,10 @@ public class ClientAppBackend {
     };
 
     private void completeCollection(LinkedHashSet<HumanBeing> remoteCollection) {
-        localCollection.clear();
-        localCollection.addAll(remoteCollection);
+        try {
+            localCollection.clear();
+            localCollection.addAll(remoteCollection);
+        } catch (IllegalStateException ex) { }
     }
 
     public ObservableList<HumanBeing> syncCollection() {

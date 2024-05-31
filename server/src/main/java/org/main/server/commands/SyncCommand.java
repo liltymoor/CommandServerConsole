@@ -21,12 +21,9 @@ public class SyncCommand extends UserClientCommand {
     public CommandResult action(Object[] params, String username) {
         try {
             List<HumanBeing> listToSync = (List<HumanBeing>) params[0];
-            Set<HumanBeing> combined = new LinkedHashSet<>(listToSync);
-            combined.addAll(collection.getBeings());
 
-            List<HumanBeing> differences =  combined.stream()
-                    .filter(item -> !listToSync.contains(item) || !collection.getBeings().contains(item))
-                    .toList();
+            Set<HumanBeing> differences = new LinkedHashSet<>(collection.getBeings());
+            listToSync.forEach(differences::remove);
 
             if (!differences.isEmpty())
                 return new CommandResult(ActionCode.ERROR, "Collection is invalid");
