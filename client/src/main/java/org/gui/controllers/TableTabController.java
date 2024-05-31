@@ -6,7 +6,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.client.ClientAppBackend;
-import org.client.commands.properties.DataProvidedCommandResult;
 import org.shared.model.entity.Car;
 import org.shared.model.entity.HumanBeing;
 import org.shared.model.entity.params.Coordinates;
@@ -15,10 +14,9 @@ import org.shared.model.weapon.WeaponType;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
-import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
-public class TableTabController implements Initializable{
+public class TableTabController implements Initializable {
 
     public TableTabController(MainController parent, ClientAppBackend appBackend) {
         this.appBackend = appBackend;
@@ -26,10 +24,9 @@ public class TableTabController implements Initializable{
     }
     private final MainController parentController;
     private ClientAppBackend appBackend;
+
     @FXML
     private TableView<HumanBeing> dataTable;
-
-
 
 
     // TABLE COLUMNS
@@ -71,6 +68,7 @@ public class TableTabController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        // Todo фиксить в табилце выводится ссылка на класс а не сами поля.
         coordsColumn.setCellValueFactory(new PropertyValueFactory<>("coords"));
         zonedDTColumn.setCellValueFactory(new PropertyValueFactory<>("zonedDT"));
         realHeroColumn.setCellValueFactory(new PropertyValueFactory<>("realHero"));
@@ -79,9 +77,15 @@ public class TableTabController implements Initializable{
         minutesOfWaitingColumn.setCellValueFactory(new PropertyValueFactory<>("minutesOfWaiting"));
         weaponTypeColumn.setCellValueFactory(new PropertyValueFactory<>("weaponType"));
         moodColumn.setCellValueFactory(new PropertyValueFactory<>("mood"));
+        // Todo фиксить в табилце выводится ссылка на класс а не сами поля.
         modelCarColumn.setCellValueFactory(new PropertyValueFactory<>("modelCar"));
 
-        DataProvidedCommandResult<LinkedHashSet<HumanBeing>> commandResult = appBackend.callCommand("get_humans");
-        dataTable.getItems().addAll(commandResult.getData());
+        dataTable.setItems(appBackend.getLocalCollection());
     }
+
+    @FXML
+    public void syncAction() {
+        appBackend.syncCollection();
+    }
+
 }

@@ -76,7 +76,7 @@ public class HumanDatabaseHelper {
     }
 
 
-    public boolean addNewHuman(HumanBeing being, String username) {
+    public int addNewHuman(HumanBeing being, String username) {
         lock.writeLock().lock();
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO humanbeing (" +
                 "name, coord_x, coord_y, zoneddt, realhero, hastoothpick, impactspeed, minutesofwaiting, human_weapon, human_mood, carname, entityowner" +
@@ -99,11 +99,21 @@ public class HumanDatabaseHelper {
             statement.setString(12, username);
             int updatedRows = statement.executeUpdate();
             lock.writeLock().unlock();
-            return updatedRows > 0;
+            if (updatedRows < 1) return -1;
         } catch (SQLException ex) {
             lock.writeLock().unlock();
             System.out.println("[DB_HELPER] Exception caught: " + ex.getMessage());
-            return false;
+            return -1;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement("SELECT last_value FROM humanbeing_id_seq;")) {
+            ResultSet result = statement.executeQuery();
+            if (result.next()) return result.getInt("last_value");
+            System.out.println("[DB_HELPER] Something went wrong | " + new UnknownError().getMessage());
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("[DB_HELPER] Exception caught: " + e.getMessage());
+            return -1;
         }
     }
 

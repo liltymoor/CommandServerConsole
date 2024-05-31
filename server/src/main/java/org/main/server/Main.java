@@ -92,6 +92,7 @@ public class Main {
         cmndHost.addCommand(new RegisterCommand(collection));
         cmndHost.addCommand(new AuthCommand(collection));
         cmndHost.addCommand(new GetHumansCommand(collection));
+        cmndHost.addCommand(new SyncCommand(collection));
 
         // INVOKING COMMAND "HELP" FOR HELP TO START
 

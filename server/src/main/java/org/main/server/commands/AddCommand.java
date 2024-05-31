@@ -28,7 +28,6 @@ public class AddCommand extends UserClientCommand implements InputCompoundable, 
         try {
             being = (HumanBeing) params[0];
             being.setEntityOwner(username);
-            being.setZonedDT(ZonedDateTime.now());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return new CommandResult(ActionCode.BAD_INPUT, String.format("Something went wrong (%s)", ex.getMessage()));

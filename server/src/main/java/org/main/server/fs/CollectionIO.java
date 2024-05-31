@@ -110,7 +110,10 @@ public class CollectionIO {
     }
 
     public void addToCollection(HumanBeing entity, String username) {
-        if (dbHelper.addNewHuman(entity, username)) {
+        entity.setZonedDT(ZonedDateTime.now());
+        int entityId = dbHelper.addNewHuman(entity, username);
+        if (entityId != -1) {
+            entity.setId(entityId);
             resultSet.add(entity);
         }
         else
@@ -155,7 +158,7 @@ public class CollectionIO {
                     .findFirst()
                     .orElse(null);
             if (human != null) {
-                removeFromCollection(human, username);
+                resultSet.remove(human);
                 return true;
             }
         }

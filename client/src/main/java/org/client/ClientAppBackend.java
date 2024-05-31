@@ -1,5 +1,9 @@
 package org.client;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import org.client.commands.*;
 import org.client.commands.managers.CommandHost;
 import org.client.commands.managers.CommandInvoker;
@@ -10,14 +14,22 @@ import org.client.commands.types.Command;
 import org.client.commands.types.DataProvidableServerCommand;
 import org.client.exceptions.CommandNotFoundException;
 import org.client.network.ClientUDP;
+import org.shared.model.entity.HumanBeing;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class ClientAppBackend {
     private Logger backendLogger = Logger.getLogger("backendLogger");
     private CommandHost commandHost;
     private CommandInvoker commandInvoker;
     private ClientUDP client;
+
+    private ObservableList<HumanBeing> localCollection;
 
     public ClientAppBackend() {
         backendLogger.info("Starting ClientAppBackend...");
@@ -61,6 +73,7 @@ public class ClientAppBackend {
         commandHost.addCommand(new AuthCommand(client));
         commandHost.addCommand(new RegisterCommand(client));
         commandHost.addCommand(new GetHumansCommand(client));
+        commandHost.addCommand(new SyncCommand(client));
         return true;
     }
 
@@ -82,6 +95,38 @@ public class ClientAppBackend {
 
         return new DataProvidedCommandResult<>(ActionCode.ERROR, null);
     };
+
+    private void completeCollection(LinkedHashSet<HumanBeing> remoteCollection) {
+        localCollection.clear();
+        localCollection.addAll(remoteCollection);
+    }
+
+    public ObservableList<HumanBeing> syncCollection() {
+        if (localCollection == null) setupCollection();
+
+        CommandResult syncResult = invokeCommand("sync", localCollection.stream().toList());
+        if (syncResult.getCode() != ActionCode.OK) {
+            DataProvidedCommandResult<LinkedHashSet<HumanBeing>> getResult = callCommand("get_humans");
+            completeCollection(getResult.getData());
+        }
+        return localCollection;
+    }
+
+    private ObservableList<HumanBeing> setupCollection() {
+        if (localCollection != null) {
+            syncCollection();
+            return localCollection;
+        }
+        DataProvidedCommandResult<LinkedHashSet<HumanBeing>> reqResult = callCommand("get_humans");
+        localCollection = FXCollections.observableArrayList(reqResult.getData().stream().toList());
+        return localCollection;
+    }
+
+    public ObservableList<HumanBeing> getLocalCollection() {
+        if (localCollection == null) setupCollection();
+        // todo возможно добавить сюда проверку на время последнего обновления и добавить sync
+        return localCollection;
+    }
 
 
 //    public static void main(String[] args) {

@@ -154,6 +154,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         id = -1;
         setName(name);
         this.coords = coords;
+        this.zonedDT = zonedDT;
         this.realHero = realHero;
         this.hasToothpick = hasToothpick;
         this.impactSpeed = impactSpeed;
@@ -214,6 +215,24 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     @Override
     public int compareTo(HumanBeing o) {
         return Long.compare(getImpactSpeed(), o.getImpactSpeed());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        HumanBeing humanBeing = (HumanBeing) obj;
+        return id == humanBeing.getId() &&
+                 name.equals(humanBeing.getName()) &&
+                coords.equals(humanBeing.getCoords()) &&
+                zonedDT.equals(humanBeing.getZonedDT()) &&
+                realHero.equals(humanBeing.getRealHero()) &&
+                hasToothpick.equals(humanBeing.getHasToothpick()) &&
+                impactSpeed.equals(humanBeing.getImpactSpeed()) &&
+                minutesOfWaiting.equals(humanBeing.getMinutesOfWaiting()) &&
+                weaponType.equals(humanBeing.getWeaponType()) &&
+                mood.equals(humanBeing.getMood()) &&
+                modelCar.equals(humanBeing.getModelCar());
     }
 
     @Override

@@ -3,7 +3,7 @@ package org.shared.network;
 import java.io.Serializable;
 
 public class Request implements Serializable {
-    public static final int REQUEST_SIZE = 2048;
+    public static final int REQUEST_SIZE = 4096;
     private String commandName;
     private String userToken;
     private Object[] args;
