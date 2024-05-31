@@ -1,5 +1,7 @@
 package org.gui.controllers;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -14,10 +16,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import org.client.ClientAppBackend;
 import org.client.commands.properties.DataProvidedCommandResult;
+import org.shared.model.entity.Car;
 import org.shared.model.entity.HumanBeing;
 import org.shared.model.entity.params.Coordinates;
+import org.shared.model.entity.params.Mood;
+import org.shared.model.weapon.WeaponType;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,11 +44,22 @@ public class RadarTabController implements Initializable {
     public RadarTabController(MainController parent, ClientAppBackend appBackend) throws IOException {
         this.appBackend = appBackend;
         this.parentController = parent;
+
+
+        //        // dbg
+        try {
+            appBackend.invokeCommand("add", new HumanBeing("asdest", new Coordinates(550F, 200L), false, false, 100L, 100.0, WeaponType.AXE, Mood.APATHY, new Car("123")));
+            System.out.println("add test");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
         DataProvidedCommandResult<LinkedHashSet<HumanBeing>> commandResult = appBackend.callCommand("get_humans");
-        humanBeings = (LinkedHashSet<HumanBeing>) commandResult.getData();
+        humanBeings = commandResult.getData();
         System.out.println(humanBeings);
         // Example data
-        loadExampleData();
+        initColorMap();
     }
 
     @Override
@@ -50,15 +68,38 @@ public class RadarTabController implements Initializable {
         radarCanvas.setOnMouseClicked(this::handleClick);
     }
 
+    private void initColorMap() {
+        for (HumanBeing human : humanBeings) {
+            String owner = human.getEntityOwner();
+            if (!userColors.containsKey(owner)) {
+                userColors.put(owner, generateUniqueColor(owner));
+            }
+        }
+    }
+
+    private Color generateUniqueColor(String owner) {
+        int hash = owner.hashCode();
+        int r = (hash & 0xFF0000) >> 16;
+        int g = (hash & 0x00FF00) >> 8;
+        int b = hash & 0x0000FF;
+        return Color.rgb(r, g, b);
+    }
+
     private void handleClick(MouseEvent event) {
+        System.out.println("clicked");
         double x = event.getX();
         double y = event.getY();
 
         for (HumanBeing humanBeing : humanBeings) {
             if (isClickedOnObject(humanBeing, x, y)) {
                 showObjectInfo(humanBeing, x, y);
-                break;
+                return;
             }
+        }
+
+        if (currentInfoPane != null) {
+            applyExitAnimation(currentInfoPane);
+            //((AnchorPane) radarCanvas.getParent()).getChildren().remove(currentInfoPane);
         }
     }
 
@@ -71,41 +112,69 @@ public class RadarTabController implements Initializable {
     }
 
     private void showObjectInfo(HumanBeing humanBeing, double x, double y) {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("HumanBeing Information");
-//        alert.setHeaderText(null);
-//        alert.setContentText(humanBeing.toString());
-//        alert.showAndWait();
         if (currentInfoPane != null) {
-            ((AnchorPane) radarCanvas.getParent()).getChildren().remove(currentInfoPane);
+            applyExitAnimation(currentInfoPane);
+            //((AnchorPane) radarCanvas.getParent()).getChildren().remove(currentInfoPane);
         }
 
         currentInfoPane = new VBox();
-        currentInfoPane.setStyle("-fx-background-color: white; -fx-border-color: black;");
+        currentInfoPane.getStyleClass().add("info-pane");
         currentInfoPane.setPadding(new Insets(10));
-//        currentInfoPane.setSpacing(5);
 
         Label idLabel = new Label("ID: " + humanBeing.getId());
         Label nameLabel = new Label("Name: " + humanBeing.getName());
-        Label coordsLabel = new Label("Coordinates: " + humanBeing.getCoords());
+        Label coordsLabel = new Label("Coordinates: (" + humanBeing.getCoords().getX() + ", " + humanBeing.getCoords().getY() + ")");
         Label realHeroLabel = new Label("Real Hero: " + humanBeing.getRealHero());
-        // Add more labels for other fields...
 
         currentInfoPane.getChildren().addAll(idLabel, nameLabel, coordsLabel, realHeroLabel);
 
         // Add random GIF image
-        ImageView gifImageView = new ImageView(getRandomGifImage());
+        ImageView gifImageView = getRandomGifImageView();
         currentInfoPane.getChildren().add(gifImageView);
 
+        System.out.println("info pane" + x + " "+  y);
         // Position the pane
         currentInfoPane.setLayoutX(x + 10);
         currentInfoPane.setLayoutY(y + 10);
 
         ((AnchorPane) radarCanvas.getParent()).getChildren().add(currentInfoPane);
+        applyEnterAnimation(currentInfoPane);
+
+    }
+    private void applyEnterAnimation(Pane pane) {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(500), pane);
+        fadeTransition.setFromValue(0.0);
+        fadeTransition.setToValue(1.0);
+
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(500), pane);
+        scaleTransition.setFromX(0.5);
+        scaleTransition.setFromY(0.5);
+        scaleTransition.setToX(1.0);
+        scaleTransition.setToY(1.0);
+
+        fadeTransition.play();
+        scaleTransition.play();
     }
 
-    private Image getRandomGifImage() {
-        File folder = new File("./"); // Update with your actual path
+    private void applyExitAnimation(Pane pane) {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(300), pane);
+        fadeTransition.setFromValue(1.0);
+        fadeTransition.setToValue(0.0);
+
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), pane);
+        scaleTransition.setFromX(1.0);
+        scaleTransition.setFromY(1.0);
+        scaleTransition.setToX(0.5);
+        scaleTransition.setToY(0.5);
+
+        fadeTransition.setOnFinished(e -> ((AnchorPane) radarCanvas.getParent()).getChildren().remove(pane));
+
+        fadeTransition.play();
+        scaleTransition.play();
+    }
+
+    private ImageView getRandomGifImageView() {
+        File folder = new File("./gif");
         System.out.println(Arrays.toString(folder.listFiles()));
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".gif"));
         System.out.println(Arrays.toString(files));
@@ -114,31 +183,57 @@ public class RadarTabController implements Initializable {
         }
         Random random = new Random();
         File randomGifFile = files[random.nextInt(files.length)];
-        return new Image(randomGifFile.toURI().toString());
+        Image gifImage = new Image(randomGifFile.toURI().toString());
+        ImageView gifView = new ImageView(gifImage);
+
+        // Set size for ImageView
+        double maxSize = 100;  // Example size
+        gifView.setFitWidth(maxSize);
+        gifView.setFitHeight(maxSize);
+        gifView.setPreserveRatio(true);
+
+        return gifView;
     }
 
-
-    private void loadExampleData() throws IOException {
-        // Add example HumanBeing objects to the list
-        //humanBeings.add(new HumanBeing("Alice", new Coordinates(100F, 150L), true, false, 20L, 15.5, WeaponType.SWORD, Mood.HAPPY, new Car("BMW"), "user1"));
-        //humanBeings.add(new HumanBeing("Bob", new Coordinates(200F, 250L), false, true, 30L, 20.0, WeaponType.GUN, Mood.SAD, new Car("Audi"), "user2"));
-        // Assign colors to users
-        userColors.put("grigory222", Color.RED);
-        //userColors.put("user2", Color.BLUE);
-    }
 
     private void drawObjects() {
-        GraphicsContext gc = radarCanvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, radarCanvas.getWidth(), radarCanvas.getHeight());
-        System.out.println("test"+humanBeings);
         for (HumanBeing humanBeing : humanBeings) {
-            System.out.println("test");
-            System.out.println(userColors);
-            Color color = userColors.getOrDefault(humanBeing.getEntityOwner(), Color.BLACK);
-            gc.setFill(color);
-            gc.fillOval(humanBeing.getCoords().getX(), humanBeing.getCoords().getY(), 20, 20); // Adjust the size as needed
+            double x = humanBeing.getCoords().getX();
+            double y = humanBeing.getCoords().getY();
+            String owner = humanBeing.getEntityOwner();
+            Color color = userColors.get(owner);
+            drawCircle(x, y, color, humanBeing);
         }
-        System.out.println("test_final");
+    }
+
+    private void drawCircle(double x, double y, Color color, HumanBeing humanBeing) {
+        double radius = 10;
+
+        Circle circle = new Circle(x, y, radius);
+        circle.setFill(color);
+        circle.setStroke(Color.WHITE);
+        circle.setStrokeWidth(2);
+
+        circle.setOnMouseEntered(event -> applyMouseEnterAnimation(circle));
+        circle.setOnMouseExited(event -> applyMouseExitAnimation(circle));
+        circle.setOnMouseClicked(event -> showObjectInfo(humanBeing, x, y));
+
+        AnchorPane parent = (AnchorPane) radarCanvas.getParent();
+        parent.getChildren().add(circle);
+    }
+
+    private void applyMouseEnterAnimation(Circle circle) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(200), circle);
+        st.setToX(1.5);
+        st.setToY(1.5);
+        st.play();
+    }
+
+    private void applyMouseExitAnimation(javafx.scene.shape.Circle circle) {
+        ScaleTransition st = new ScaleTransition(Duration.millis(200), circle);
+        st.setToX(1.0);
+        st.setToY(1.0);
+        st.play();
     }
 
     // Method to add/update/remove HumanBeing objects

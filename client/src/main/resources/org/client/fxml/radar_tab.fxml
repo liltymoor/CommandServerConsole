@@ -6,6 +6,11 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.gui.controllers.RadarTabController">
-    <Canvas fx:id="radarCanvas" width="800.0" height="600.0"/>
+            fx:controller="org.gui.controllers.RadarTabController"
+            stylesheets="@../css/style.css"
+            fx:id="radarTabContent">
+    <AnchorPane fx:id="radarBackground">
+        <Canvas fx:id="radarCanvas" width="${radarTabContent.width}" height="${radarTabContent.height}" />
+    </AnchorPane>
+
 </AnchorPane>
