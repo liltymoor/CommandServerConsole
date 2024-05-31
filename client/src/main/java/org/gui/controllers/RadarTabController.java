@@ -41,7 +41,7 @@ public class RadarTabController implements Initializable {
     private LinkedHashSet<HumanBeing> humanBeings;
     private final Map<String, Color> userColors = new HashMap<>();
 
-    public RadarTabController(MainController parent, ClientAppBackend appBackend) throws IOException {
+    public RadarTabController(MainController parent, ClientAppBackend appBackend) {
         this.appBackend = appBackend;
         this.parentController = parent;
 
