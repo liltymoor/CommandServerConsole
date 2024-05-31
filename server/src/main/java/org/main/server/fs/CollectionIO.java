@@ -110,7 +110,10 @@ public class CollectionIO {
     }
 
     public void addToCollection(HumanBeing entity, String username) {
-        if (dbHelper.addNewHuman(entity, username)) {
+        entity.setZonedDT(ZonedDateTime.now());
+        int entityId = dbHelper.addNewHuman(entity, username);
+        if (entityId != -1) {
+            entity.setId(entityId);
             resultSet.add(entity);
         }
         else
@@ -119,14 +122,16 @@ public class CollectionIO {
 
     public boolean editCollectionEntity(HumanBeing updated, String username) {
         if (dbHelper.updateHuman(updated, username))
-            for (HumanBeing being: resultSet)
-                if (being.getId() == updated.getId() && being.getEntityOwner().equals(username)) {
+            for (HumanBeing being: resultSet) {
+                if (being.getId() == updated.getId() // && being.getEntityOwner().equals(username)
+                ) {
                     ArrayList<HumanBeing> tempList = new ArrayList<>(resultSet);
                     tempList.set(tempList.indexOf(being), updated);
                     resultSet.clear();
                     resultSet.addAll(tempList);
                     return true;
                 }
+            }
         return false;
     }
 
@@ -155,7 +160,7 @@ public class CollectionIO {
                     .findFirst()
                     .orElse(null);
             if (human != null) {
-                removeFromCollection(human, username);
+                resultSet.remove(human);
                 return true;
             }
         }

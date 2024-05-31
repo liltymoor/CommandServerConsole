@@ -3,42 +3,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.gui.controllers.TableTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.gui.controllers.TableTabController">
     <children>
         <VBox prefHeight="666.0" prefWidth="1105.0" spacing="10.0">
             <children>
-                <TableView fx:id="dataTable" editable="true" prefHeight="520.0" prefWidth="1105.0"
-                           xmlns:fx="http://javafx.com/fxml">
+                <TableView fx:id="dataTable" editable="true" prefHeight="520.0" prefWidth="1105.0" xmlns:fx="http://javafx.com/fxml">
                     <columns>
-                        <TableColumn fx:id="idColumn" text="ID"/>
-                        <TableColumn fx:id="nameColumn" text="Name"/>
-                        <TableColumn fx:id="coordsColumn" text="Coordinates"/>
-                        <TableColumn fx:id="zonedDTColumn" text="Zoned DateTime"/>
-                        <TableColumn fx:id="realHeroColumn" text="Real Hero"/>
-                        <TableColumn fx:id="hasToothpickColumn" text="Has Toothpick"/>
-                        <TableColumn fx:id="impactSpeedColumn" text="Impact Speed"/>
-                        <TableColumn fx:id="minutesOfWaitingColumn" text="Minutes of Waiting"/>
-                        <TableColumn fx:id="weaponTypeColumn" text="Weapon Type"/>
-                        <TableColumn fx:id="moodColumn" text="Mood"/>
-                        <TableColumn fx:id="modelCarColumn" text="Model Car"/>
+                        <TableColumn fx:id="idColumn" reorderable="false" text="ID" />
+                        <TableColumn fx:id="nameColumn" reorderable="false" text="Name" />
+                        <TableColumn reorderable="false" text="x Coordinate" fx:id="xColumn" />
+                        <TableColumn fx:id="yColumn" reorderable="false" text="y Coordinate" />
+                        <TableColumn fx:id="zonedDTColumn" reorderable="false" text="Zoned DateTime" />
+                        <TableColumn fx:id="realHeroColumn" reorderable="false" text="Real Hero" />
+                        <TableColumn fx:id="hasToothpickColumn" reorderable="false" text="Has Toothpick" />
+                        <TableColumn fx:id="impactSpeedColumn" reorderable="false" text="Impact Speed" />
+                        <TableColumn fx:id="minutesOfWaitingColumn" reorderable="false" text="Minutes of Waiting" />
+                        <TableColumn fx:id="weaponTypeColumn" reorderable="false" text="Weapon Type" />
+                        <TableColumn fx:id="moodColumn" reorderable="false" text="Mood" />
+                        <TableColumn fx:id="modelCarColumn" reorderable="false" text="Car Model" />
                     </columns>
                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Button mnemonicParsing="false" text="Button"/>
-                        <Button mnemonicParsing="false" text="Button"/>
-                        <Button mnemonicParsing="false" text="Button"/>
-                        <Button mnemonicParsing="false" text="Button"/>
-                        <Button layoutX="196.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                        <Button layoutX="258.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                        <Button mnemonicParsing="false" text="Button"/>
-                        <Button layoutX="320.0" layoutY="10.0" mnemonicParsing="false" text="Button"/>
-                        <Button layoutX="630.0" layoutY="48.0" mnemonicParsing="false" text="Button"/>
+                        <Button mnemonicParsing="false" onAction="#syncAction" text="Sync" />
+                        <Button mnemonicParsing="false" onAction="#clearAction" text="Clear" />
+                        <Button mnemonicParsing="false" onAction="#addAction" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#addLowerAction" text="AddLower" />
+                        <Button layoutX="196.0" layoutY="10.0" mnemonicParsing="false" onAction="#removeLowerAction" text="RemoveLower" />
                     </children>
                 </HBox>
             </children>

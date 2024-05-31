@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * @author lil_timmie
@@ -154,6 +155,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         id = -1;
         setName(name);
         this.coords = coords;
+        this.zonedDT = zonedDT;
         this.realHero = realHero;
         this.hasToothpick = hasToothpick;
         this.impactSpeed = impactSpeed;
@@ -217,6 +219,24 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        HumanBeing humanBeing = (HumanBeing) obj;
+        return id == humanBeing.getId() &&
+                name.equals(humanBeing.getName()) &&
+                coords.equals(humanBeing.getCoords()) &&
+                zonedDT.equals(humanBeing.getZonedDT()) &&
+                realHero.equals(humanBeing.getRealHero()) &&
+                hasToothpick.equals(humanBeing.getHasToothpick()) &&
+                impactSpeed.equals(humanBeing.getImpactSpeed()) &&
+                minutesOfWaiting.equals(humanBeing.getMinutesOfWaiting()) &&
+                weaponType.equals(humanBeing.getWeaponType()) &&
+                mood.equals(humanBeing.getMood()) &&
+                modelCar.equals(humanBeing.getModelCar());
+    }
+
+    @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX'['VV']'");
         String formattedString = (zonedDT != null) ? zonedDT.format(formatter) : "null";
@@ -243,6 +263,11 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
                 mood.toString(),
                 modelCar.getName()
         );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, coords, zonedDT, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, modelCar);
     }
 
 

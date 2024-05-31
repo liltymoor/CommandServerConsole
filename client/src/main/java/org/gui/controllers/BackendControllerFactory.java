@@ -30,7 +30,15 @@ public class BackendControllerFactory {
 
 
     private void initControllersCreators() {
-        controllerCreators.put(TableTabController.class, () -> new TableTabController(parentController, data)); // пассуем любую хуйню внутрь контроллера теперь
-        controllerCreators.put(RadarTabController.class, () -> new RadarTabController(parentController, data));
+        controllerCreators.put(TableTabController.class, () -> {
+            TableTabController controller = new TableTabController(parentController, data);
+            parentController.setTableController(controller);
+            return controller;
+        }); // пассуем любую хуйню внутрь контроллера теперь
+        controllerCreators.put(RadarTabController.class, () -> {
+            RadarTabController controller = new RadarTabController(parentController, data);
+            parentController.setRadarController(controller);
+            return controller;
+        });
     }
 }

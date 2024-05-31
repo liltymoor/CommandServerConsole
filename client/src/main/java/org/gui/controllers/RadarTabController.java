@@ -11,5 +11,4 @@ public class RadarTabController {
 
     private final MainController parentController;
     private ClientAppBackend appBackend;
-
 }

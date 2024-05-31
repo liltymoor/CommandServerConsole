@@ -1,7 +1,10 @@
 package org.shared.model.entity.params;
 
+import org.shared.model.entity.HumanBeing;
+
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author lil_timmie
@@ -42,5 +45,17 @@ public class Coordinates implements Serializable {
             this.y = y;
         else
             throw new IOException();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Coordinates humanBeing = (Coordinates) obj;
+        return x.equals(humanBeing.x) && y.equals(humanBeing.y);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(x,y);
     }
 }
