@@ -31,13 +31,15 @@ public class BackendControllerFactory {
 
 
     private void initControllersCreators() {
-        controllerCreators.put(TableTabController.class, () -> new TableTabController(parentController, data)); // пассуем любую хуйню внутрь контроллера теперь
+        controllerCreators.put(TableTabController.class, () -> {
+            TableTabController controller = new TableTabController(parentController, data);
+            parentController.setTableController(controller);
+            return controller;
+        }); // пассуем любую хуйню внутрь контроллера теперь
         controllerCreators.put(RadarTabController.class, () -> {
-            try {
-                return new RadarTabController(parentController, data);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            RadarTabController controller = new RadarTabController(parentController, data);
+            parentController.setRadarController(controller);
+            return controller;
         });
     }
 }

@@ -20,8 +20,9 @@ public class CommandInvoker {
         if (commandToInvoke == null)
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
+        System.out.println("[CLIENT] Executing \"%s\" command".formatted(commandToInvoke.getName()));
         CommandResult result = commandToInvoke.action(params);
-        System.out.printf("[CLIENT] %s%n", result.toString());
+        System.out.printf("[CLIENT] %s%n%n", result.toString());
         return result;
     }
 
@@ -29,8 +30,9 @@ public class CommandInvoker {
         if (commandToInvoke == null)
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
+        System.out.println("[CLIENT] Executing \"%s\" command".formatted(commandToInvoke.getName()));
         CommandResult result = commandToInvoke.action(new String[] {});
-        System.out.printf("[CLIENT] %s%n", result.toString());
+        System.out.printf("[CLIENT] %s%n%n", result.toString());
         return result;
     }
 
@@ -38,8 +40,9 @@ public class CommandInvoker {
         if (commandToInvoke == null)
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
+        System.out.println("[CLIENT] Executing \"%s\" command".formatted(commandToInvoke.getName()));
         DataProvidedCommandResult<T> result = commandToInvoke.action(new String[] {});
-        System.out.printf("[CLIENT] %s%n", result.toString());
+        System.out.printf("[CLIENT] %s%n%n", result.toString());
         return result;
     }
 
@@ -47,8 +50,9 @@ public class CommandInvoker {
         if (commandToInvoke == null)
             throw new CommandNotFoundException();
         host.appendHistory(commandToInvoke);
+        System.out.println("[CLIENT] Executing \"%s\" command".formatted(commandToInvoke.getName()));
         DataProvidedCommandResult<T> result = commandToInvoke.action(new String[] {});
-        System.out.printf("[CLIENT] %s%n", result.toString());
+        System.out.printf("[CLIENT] %s%n%n", result.toString());
         return result;
     }
 }

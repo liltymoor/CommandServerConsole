@@ -1,7 +1,10 @@
 package org.shared.model.entity;
 
+import org.shared.model.entity.params.Coordinates;
+
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author lil_timmie
@@ -22,4 +25,16 @@ public class Car implements Serializable {
         name = value;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Car otherCar = (Car) obj;
+        return name.equals(otherCar.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

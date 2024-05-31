@@ -76,7 +76,7 @@ public class HumanDatabaseHelper {
     }
 
 
-    public boolean addNewHuman(HumanBeing being, String username) {
+    public int addNewHuman(HumanBeing being, String username) {
         lock.writeLock().lock();
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO humanbeing (" +
                 "name, coord_x, coord_y, zoneddt, realhero, hastoothpick, impactspeed, minutesofwaiting, human_weapon, human_mood, carname, entityowner" +
@@ -99,17 +99,29 @@ public class HumanDatabaseHelper {
             statement.setString(12, username);
             int updatedRows = statement.executeUpdate();
             lock.writeLock().unlock();
-            return updatedRows > 0;
+            if (updatedRows < 1) return -1;
         } catch (SQLException ex) {
             lock.writeLock().unlock();
             System.out.println("[DB_HELPER] Exception caught: " + ex.getMessage());
-            return false;
+            return -1;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement("SELECT last_value FROM humanbeing_id_seq;")) {
+            ResultSet result = statement.executeQuery();
+            if (result.next()) return result.getInt("last_value");
+            System.out.println("[DB_HELPER] Something went wrong | " + new UnknownError().getMessage());
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("[DB_HELPER] Exception caught: " + e.getMessage());
+            return -1;
         }
     }
 
     public boolean updateHuman(HumanBeing being, String username) {
         lock.writeLock().lock();
-        try(PreparedStatement statement = connection.prepareStatement("UPDATE humanbeing SET name=?, coord_x=?, coord_y=?, zoneddt=?, realhero=?, hastoothpick=?, impactspeed=?, minutesofwaiting=?, human_weapon=?, human_mood=?, carname=?, entityowner=? WHERE id=? AND entityowner=?"))
+        try(PreparedStatement statement = connection.prepareStatement("UPDATE humanbeing SET name=?, coord_x=?, coord_y=?, zoneddt=?, realhero=?, hastoothpick=?, impactspeed=?, minutesofwaiting=?, human_weapon=?, human_mood=?, carname=?, entityowner=? WHERE id=?" +
+                //" AND entityowner=?" +
+                ";"))
         {
             statement.setString(1, being.getName());
             statement.setFloat(2, being.getCoords().getX());
@@ -128,7 +140,8 @@ public class HumanDatabaseHelper {
             statement.setString(11, being.getModelCar().getName());
             statement.setString(12, username);
             statement.setInt(13, being.getId());
-            statement.setString(14, username);
+            // TODO мб надо вернуть работу только с данными юзера
+            //statement.setString(14, username);
 
             int updatedRows = statement.executeUpdate();
             lock.writeLock().unlock();

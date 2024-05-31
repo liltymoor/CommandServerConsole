@@ -31,7 +31,7 @@ public class ClientUDP {
     public void send(ByteBuffer buffer) {
         try {
             channel.send(buffer, serverAddress);
-            System.out.println("Request successfully sent");
+            System.out.println("[CLIENT] Request successfully sent");
         } catch (IOException e) {
             System.out.format("Error sending request: %s\n", e.getMessage());
         }
@@ -51,7 +51,7 @@ public class ClientUDP {
 
     private Response receiveResponse() throws IOException, ServerIsNullException {
         ByteBuffer buffer = ByteBuffer.allocate(Response.RESPONSE_SIZE);
-        System.out.println("Waiting for server answer...");
+        System.out.println("[CLIENT] Waiting for server answer...");
         InetSocketAddress serverAnswer = (InetSocketAddress) channel.receive(buffer);
 
         if (serverAnswer == null) throw new ServerIsNullException();

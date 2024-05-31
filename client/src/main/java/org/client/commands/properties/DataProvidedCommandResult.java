@@ -23,6 +23,8 @@ public class DataProvidedCommandResult<T> extends CommandResult {
 
     @Override
     public String toString() {
-        return super.toString().concat(" Data: %s".formatted(data.getClass()));
+        String result = super.toString();
+        if (data != null) result = result.concat(" Data: %s".formatted(data.getClass()));
+        return result;
     }
 }
