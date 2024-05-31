@@ -2,6 +2,7 @@ package org.gui.controllers;
 
 import org.client.ClientAppBackend;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
